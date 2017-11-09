@@ -1,0 +1,63 @@
+Source: grx-widgets
+Section: embedded
+Priority: standard
+Maintainer: David Lechner <david@lechnology.com>
+Build-Depends: debhelper (>= 10),
+    cmake,
+    gobject-introspection,
+    libgirepository1.0-dev,
+    libgrx-3.0-dev,
+    netpbm,
+    valac (>= 0.24)
+Standards-Version: 3.9.8
+Homepage: https://www.ev3dev.org
+Vcs-Git: https://github.com/ev3dev/grx-widgets.git
+Vcs-Browser: https://github.com/ev3dev/grx-widgets
+
+Package: libgw-0.1-0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, gw-data (= ${source:Version})
+Description: Widget toolkit for small displays
+ GRX Widgets is a GLib/GObject based library for building graphical interfaces
+ on small displays.
+
+Package: gir1.2-gw-0.1
+Section: introspection
+Architecture: any
+Depends: ${gir:Depends}, ${misc:Depends}
+Description: GRX Widgets library GIR bindings
+ GRX Widgets is a GLib/GObject based library for building graphical interfaces
+ on small displays.
+ .
+ This package contains the GObject Introspection data for the GRX Widgets
+ library.
+
+Package: gw-data
+Architecture: all
+Depends: ${misc:Depends}
+Description: GRX Widgets library data
+ GRX Widgets is a GLib/GObject based library for building graphical interfaces
+ on small displays.
+ .
+ This package contains the architecture independent data for the GRX Widgets
+ library.
+
+Package: libgw-dev
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, libgw-0.5-0 (= ${binary:Version}),
+         gir1.2-gw-0.5 (= ${binary:Version}), libgrx-3.0-dev
+Description: GRX Widgets library development files
+ GRX Widgets is a GLib/GObject based library for building graphical interfaces
+ on small displays.
+ .
+ This package contains the development files for the GRX Widgets library.
+
+Package: gw-demo
+Architecture: armel armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: GRX Widgets library demo
+ GRX Widgets is a GLib/GObject based library for building graphical interfaces
+ on small displays.
+ .
+ This package includes several demo programs that use the GRX Widgets library.

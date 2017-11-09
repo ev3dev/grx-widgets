@@ -1,0 +1,110 @@
+/*
+ * GRX Widgets - Widget toolkit for small displays
+ *
+ * Copyright 2014 David Lechner <david@lechnology.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
+
+/* Button.vala - Widget that represents a selectable button */
+
+using Grx;
+
+namespace Gw {
+    /**
+     * Button shaped {@link Container} to get user input.
+     *
+     * The colors of a button (except for the border) are inverted when it has
+     * focus. Pressing ``ENTER`` will trigger the {@link pressed} signal.
+     */
+    public class Button : Gw.Container {
+        /**
+         * Emitted when the Button has been pressed by the user.
+         */
+        public signal void pressed ();
+
+        construct {
+            if (container_type != ContainerType.SINGLE)
+                critical ("Requires container_type == ContainerType.SINGLE");
+            border = 1;
+            border_radius = 3;
+            padding = 2;
+            can_focus = true;
+        }
+
+        /**
+         * Creates a new Button.
+         *
+         * @param child The child for the button {@link Container}.
+         */
+        public Button (Widget? child = null) {
+            Object (container_type: ContainerType.SINGLE);
+            if (child != null)
+                add (child);
+        }
+
+        /**
+         * Creates a new Button with a {@link Label} as the child.
+         *
+         * @param text The text for the {@link Label}.
+         * @param font The font to use for the widget or ``null`` to use the
+         * default font.
+         */
+        public Button.with_label (string? text = null, Font? font = null) {
+            this (new Label (text) {
+                margin_left = 3,
+                margin_right = 3,
+                 // hack for default font
+                padding_top = font == null ? -2 : 0,
+                font = font ?? Fonts.get_default ()
+            });
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        protected override bool draw_children_as_focused {
+            get {
+                if (has_focus)
+                    return true;
+                return base.draw_children_as_focused;
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        protected override void draw_background () {
+            if (draw_children_as_focused) {
+                var color = window.screen.mid_color;
+                draw_filled_rounded_box (border_bounds.x1, border_bounds.y1,
+                    border_bounds.x2, border_bounds.y2, border_radius, color);
+            }
+        }
+
+        /**
+         * Default handler for the key_pressed signal.
+         */
+        internal override bool key_pressed (uint key_code) {
+            if (key_code == Key.RETURN) {
+                pressed ();
+                Signal.stop_emission_by_name (this, "key-pressed");
+                return true;
+            }
+            return base.key_pressed (key_code);
+        }
+    }
+}
