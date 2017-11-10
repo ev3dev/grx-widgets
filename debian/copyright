@@ -1,7 +1,11 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
-Files: *
+Files: src/*
 Copyright: 2014-2017 David Lechner <david@lechnology.com>
+License: LGPL-2.1+
+
+Files: *
+Copyright: 2017 David Lechner <david@lechnology.com>
 License: GPL-2.0+
 
 License: GPL-2.0+
