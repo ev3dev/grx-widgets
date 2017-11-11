@@ -28,11 +28,11 @@ set (TYPELIB_TARGET ${PACKAGE_NAME}-typelib)
 # macOS/brew stuff
 
 if (APPLE)
-# see `brew info gettext` caveats
-link_directories (/usr/local/opt/gettext/lib)
-include_directories (/usr/local/opt/gettext/include)
-# .typelib does not work without this
-set (CMAKE_MACOSX_RPATH No)
+    # see `brew info gettext` caveats
+    link_directories (/usr/local/opt/gettext/lib)
+    include_directories (/usr/local/opt/gettext/include)
+    # .typelib does not work without this
+    set (CMAKE_MACOSX_RPATH No)
 endif (APPLE)
 
 
