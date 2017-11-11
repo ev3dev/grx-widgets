@@ -25,7 +25,7 @@ namespace Gw {
      * In addition to displaying widgets, the screen also maintains an input
      * queue that it passes to the top window to handle user input.
      */
-    public class Screen : Object {
+    public sealed class Screen : Object {
         Queue<Window> window_stack;
         Queue<uint?> key_queue;
         Context context;
@@ -163,7 +163,7 @@ namespace Gw {
          * Everything is drawn on a {@link Grx.Context} in memory. Refreshing
          * copies this to the actual screen so that it is displayed to the user.
          */
-        protected virtual void refresh () {
+        void refresh () {
             get_screen_context ().bit_blt (0, 0, context, 0, 0, get_screen_width () - 1, get_screen_height () - 1);
         }
 
@@ -226,7 +226,7 @@ namespace Gw {
         /**
          * Draws the topmost window and dialog on the screen.
          */
-        protected bool draw () {
+        bool draw () {
             handle_input ();
             if (dirty && can_draw) {
                 set_current_context (context);
