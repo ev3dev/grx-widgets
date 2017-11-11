@@ -125,24 +125,24 @@ namespace Gw {
          * Creates a new screen using the current GRX screen information.
          */
         public Screen () {
-            this.custom (get_screen_width (), get_screen_height ());
+            this.custom (FrameMode.get_screen_core (), get_screen_width (), get_screen_height ());
         }
 
         /**
          * Creates a new screen with a custom size and optional memory location.
          *
-         * @param width The width of the screen.
-         * @param height The height of the screen.
-         * @param context_mem_addr The memory address used by the GRX context.
-         * If ``null`` memory will be automatically allocated for the context.
+         * @param mode              The frame mode for the GRX context.
+         * @param width             The width of the screen.
+         * @param height            The height of the screen.
+         * @param context_mem_addr  The memory address used by the GRX context.
+         *                          If ``null`` memory will be automatically
+         *                          allocated for the context.
          */
-        public Screen.custom (int width, int height, char *context_mem_addr = null) {
+        public Screen.custom (FrameMode mode, int width, int height, char *context_mem_addr = null) {
             Object (width: width, height: height);
-            FrameMode mode = FrameMode.get_screen_core ();
-            if (mode == FrameMode.UNDEFINED)
-                mode = FrameMode.get_screen ();
-            if (context_mem_addr == null)
+            if (context_mem_addr == null) {
                 context = Context.new_full (mode, width, height);
+            }
             else {
                 uint8* addr[4];
                 addr[0] = context_mem_addr;
