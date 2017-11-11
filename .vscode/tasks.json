@@ -31,6 +31,19 @@
                 "cwd": "${workspaceFolder}/build"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "edit cache",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-s",
+                "edit_cache"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "problemMatcher": []
         }
     ]
 }
