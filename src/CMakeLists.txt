@@ -5,6 +5,7 @@
 add_definitions (-w)
 
 set (SOURCE_FILES
+    Application.vala
     Box.vala
     Button.vala
     CheckboxMenuItem.vala
@@ -31,7 +32,6 @@ set (SOURCE_FILES
     TextEntry.vala
     Widget.vala
     Window.vala
-    ConsoleApp.vala
     ${CMAKE_CURRENT_BINARY_DIR}/Version.vala
 )
 
@@ -39,6 +39,8 @@ configure_file (Version.vala.in Version.vala)
 
 
 # library deps
+
+find_package (PkgConfig REQUIRED)
 
 set (PUBLIC_MODULES glib-2.0 gobject-2.0 gio-2.0 grx-3.0)
 pkg_check_modules (PUBLIC_DEPS REQUIRED ${PUBLIC_MODULES})
@@ -56,10 +58,7 @@ vala2c (VALA_C_FILES SOURCE_FILES ${SOURCE_FILES}
         gio-2.0
         grx-3.0
     TARGET_GLIB 2.48
-# GENERATE_VAPI
-#     ${EV3DEVKIT_PACKAGE}
-# GENERATE_HEADER
-#     ${EV3DEVKIT_PACKAGE}
+    LIBRARY ${PACKAGE_NAME}
 # GENERATE_GIR
     # ${GIR_NAME}-buggy-${GIR_VERSION}
 )
@@ -123,7 +122,7 @@ add_library (${SHARED_LIBRARY_TARGET} SHARED $<TARGET_OBJECTS:${LIBRARY_OBJECT_T
 target_link_libraries (${SHARED_LIBRARY_TARGET} PUBLIC ${PUBLIC_DEPS_LIBRARIES})
 set_target_properties(${SHARED_LIBRARY_TARGET} PROPERTIES
     VERSION "${VERSION}"
-    SOVERSION "${SOVERSION}"
+    SOVERSION "${ABI_VERSION}"
     OUTPUT_NAME ${PACKAGE_NAME})
 
 install (TARGETS ${SHARED_LIBRARY_TARGET} LIBRARY DESTINATION lib)
@@ -136,8 +135,8 @@ set_target_properties(${STATIC_LIBRARY_TARGET} PROPERTIES
 
 install (TARGETS ${STATIC_LIBRARY_TARGET} ARCHIVE DESTINATION lib)
 
-# install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${EV3DEVKIT_PACKAGE}.h DESTINATION include/)
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}.h DESTINATION include/)
 # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-${GIR_VERSION}.pc DESTINATION lib/pkgconfig/)
-# install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${EV3DEVKIT_PACKAGE}.vapi DESTINATION share/vala/vapi/)
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}.vapi DESTINATION share/vala/vapi/)
 # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${GIR_NAME}-${GIR_VERSION}.gir DESTINATION share/gir-1.0/)
 # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${GIR_NAME}-${GIR_VERSION}.typelib DESTINATION lib/girepository-1.0/)

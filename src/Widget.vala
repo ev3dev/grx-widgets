@@ -18,15 +18,6 @@
 
 using Grx;
 
-/**
- * Library for building user interfaces on small screens (like the EV3 LCD).
- *
- * This library is modeled after GTK (and other modern UI toolkits). It uses
- * {@link Widget}s as the basic building blocks for building the user interface.
- * {@link Container}s are used to group and layout widgets. {@link Window}s are
- * the top-level Container and are displayed to the user using a {@link Screen}
- * that represents a physical screen.
- */
 namespace Gw {
     /**
      * Used by {@link Widget.do_recursive_parent} and {@link Widget.do_recursive_children}

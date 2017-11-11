@@ -1,7 +1,7 @@
 libgw-0.1.so.0 libgw-0.1-0 #MINVER#
- gw_console_app_construct@Base 0.1.0
- gw_console_app_get_type@Base 0.1.0
- gw_console_app_new@Base 0.1.0
+ gw_application_construct@Base 0.1.0
+ gw_application_get_type@Base 0.1.0
+ gw_application_new@Base 0.1.0
  gw_box_construct_horizontal@Base 0.1.0
  gw_box_construct_vertical@Base 0.1.0
  gw_box_direction_get_type@Base 0.1.0
@@ -163,7 +163,6 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_screen_construct@Base 0.1.0
  gw_screen_construct_custom@Base 0.1.0
  gw_screen_draw@Base 0.1.0
- gw_screen_get_active_screen@Base 0.1.0
  gw_screen_get_bg_color@Base 0.1.0
  gw_screen_get_dirty@Base 0.1.0
  gw_screen_get_fg_color@Base 0.1.0
@@ -179,7 +178,6 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_screen_new_custom@Base 0.1.0
  gw_screen_queue_key_code@Base 0.1.0
  gw_screen_refresh@Base 0.1.0
- gw_screen_set_active_screen@Base 0.1.0
  gw_screen_set_bg_color@Base 0.1.0
  gw_screen_set_dirty@Base 0.1.0
  gw_screen_set_fg_color@Base 0.1.0

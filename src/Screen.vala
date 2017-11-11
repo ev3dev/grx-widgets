@@ -108,29 +108,6 @@ namespace Gw {
          */
         public StatusBar status_bar { get; internal set; }
 
-        /**
-         * Gets the currently active screen.
-         *
-         * Calling {@link Window.show} will display the window on this screen.
-         *
-         * @return The currently active screen or ``null`` if that active screen
-         * has not been set.
-         */
-        public static Screen? get_active_screen () {
-            return active_screen;
-        }
-
-        /**
-         * Sets the currently active screen.
-         *
-         * Calling {@link Window.show} will display the window on this screen.
-         *
-         * @param screen The new active screen.
-         */
-        public static void set_active_screen (Screen? screen) {
-            active_screen = screen;
-        }
-
         construct {
             window_stack = new Queue<Window> ();
             key_queue = new Queue<uint?> ();

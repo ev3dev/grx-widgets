@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.5)
 # config
 
 project ("grx-widgets" VERSION "0.1.0" LANGUAGES C)
-set (ABI_VERSION 1)
+set (ABI_VERSION 0)
 set (GIR_NAME "Gw")
 set (GIR_VERSION "0.1")
 set (PACKAGE_NAME "gw-${GIR_VERSION}")
@@ -15,7 +15,6 @@ set (PACKAGE_NAME "gw-${GIR_VERSION}")
 
 list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-find_package (PkgConfig REQUIRED)
 include(GNUInstallDirs)
 set (CMAKE_INSTALL_PKGDATADIR ${CMAKE_INSTALL_DATAROOTDIR}/${PACKAGE_NAME})
 set (CMAKE_INSTALL_PKGLIBDIR ${CMAKE_INSTALL_LIBDIR}/${PACKAGE_NAME})
@@ -42,7 +41,7 @@ endif (APPLE)
 # src goes first for depedency reasons
 add_subdirectory (src)
 
-
+add_subdirectory (example)
 
 
 # old stuff

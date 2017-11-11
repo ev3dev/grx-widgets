@@ -1,7 +1,7 @@
 /*
  * GRX Widgets - Widget toolkit for small displays
  *
- * Copyright 2014 David Lechner <david@lechnology.com>
+ * Copyright 2014,2017 David Lechner <david@lechnology.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,11 +30,11 @@ namespace Gw {
      */
     public class Window : Gw.Container {
         /*
-         * A flag to defer emitting shown() after the window has been
-         * layouted and drawn. This ensure that one can e.g. setup focused
-         * widgets from a signal handler.
+         * A flag to defer emitting shown() after the window has been laid out
+         * and drawn. This ensures that one can e.g. setup focused widgets
+         * from a signal handler.
          */
-        internal bool never_shown = true;
+        bool never_shown = true;
 
         /**
          * Gets the Screen that this Window is attached to.
