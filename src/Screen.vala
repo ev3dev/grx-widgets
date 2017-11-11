@@ -138,7 +138,7 @@ namespace Gw {
          *                          If ``null`` memory will be automatically
          *                          allocated for the context.
          */
-        public Screen.custom (FrameMode mode, int width, int height, char *context_mem_addr = null) {
+        Screen.custom (FrameMode mode, int width, int height, char *context_mem_addr = null) {
             Object (width: width, height: height);
             if (context_mem_addr == null) {
                 context = Context.new_full (mode, width, height);
