@@ -62,8 +62,11 @@ namespace Gw {
             Object ();
             init ();
             _screen = new Screen ();
-            notify["is-active"].connect ((s, p) => {
-                _screen.can_draw = is_active;
+            _screen.refresh.connect (() => {
+                if (!is_active) {
+                    // Don't update to screen if app is not active
+                    Signal.stop_emission_by_name (_screen, "refresh");
+                }
             });
         }
 

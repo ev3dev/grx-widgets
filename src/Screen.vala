@@ -1,7 +1,7 @@
 /*
  * GRX Widgets - Widget toolkit for small displays
  *
- * Copyright 2014-2015 David Lechner <david@lechnology.com>
+ * Copyright 2014-2015,2017 David Lechner <david@lechnology.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,11 +29,6 @@ namespace Gw {
         Queue<Window> window_stack;
         Queue<uint?> key_queue;
         Context context;
-
-        /**
-         * Hack to prevent drawing during console switching.
-         */
-        internal bool can_draw = true;
 
         /**
          * Gets and sets the foreground color.
@@ -163,7 +158,7 @@ namespace Gw {
          * Everything is drawn on a {@link Grx.Context} in memory. Refreshing
          * copies this to the actual screen so that it is displayed to the user.
          */
-        void refresh () {
+        public virtual signal void refresh () {
             get_screen_context ().bit_blt (0, 0, context, 0, 0, get_screen_width () - 1, get_screen_height () - 1);
         }
 
@@ -228,7 +223,7 @@ namespace Gw {
          */
         bool draw () {
             handle_input ();
-            if (dirty && can_draw) {
+            if (dirty) {
                 set_current_context (context);
                 Window? top_window = null;
                 Window? top_dialog = null;
