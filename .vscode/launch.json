@@ -12,7 +12,17 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "XDG_CONFIG_HOME",
+                    "value": "${workspaceFolder}/.vscode"
+                },
+                {
+                    "name": "GRX_DRIVER",
+                    // Adafruit 2.4" RPi touchscreen
+                    "value": "gw 320 gh 240 gc 16 dp 143"
+                }
+            ],
             "externalConsole": true,
             "MIMode": "gdb",
             "setupCommands": [

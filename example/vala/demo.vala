@@ -16,6 +16,20 @@
 
 using Gw;
 
+class DemoWindow : Window {
+    public DemoWindow () {
+        var menu = new Gw.Menu ();
+
+        var quit_item = new Gw.MenuItem ("Quit");
+        quit_item.button.pressed.connect (() => {
+            close ();
+        });
+        menu.add_menu_item (quit_item);
+
+        add (menu);
+    }
+}
+
 public static int main (string[] args) {
     try {
         var app = new Gw.Application ();
@@ -23,7 +37,7 @@ public static int main (string[] args) {
         // basic apps need to handle the "activate" signal
         var activate_id = app.activate.connect (() => {
             message ("activated");
-            var window = new Window ();
+            var window = new DemoWindow ();
             window.closed.connect (() => {
                 app.release ();
             });
