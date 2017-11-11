@@ -26,16 +26,14 @@ namespace Gw {
      * queue that it passes to the top window to handle user input.
      */
     public class Screen : Object {
-        internal static Screen? active_screen;
-
-        protected Queue<Window> window_stack;
+        Queue<Window> window_stack;
         Queue<uint?> key_queue;
         Context context;
 
         /**
          * Hack to prevent drawing during console switching.
          */
-        internal static bool can_draw { get; set; default = true; }
+        internal bool can_draw = true;
 
         /**
          * Gets and sets the foreground color.
@@ -192,7 +190,7 @@ namespace Gw {
          *
          * @param window The window to add to the stack.
          */
-        internal void show_window (Window window) {
+        public void push_window (Window window) {
             if (window.screen != null)
                 window.screen.close_window (window);
             window.screen = this;

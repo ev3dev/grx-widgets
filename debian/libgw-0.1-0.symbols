@@ -183,7 +183,6 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_screen_set_fg_color@Base 0.1.0
  gw_screen_set_mid_color@Base 0.1.0
  gw_screen_set_status_bar@Base 0.1.0
- gw_screen_show_window@Base 0.1.0
  gw_scroll_construct_horizontal@Base 0.1.0
  gw_scroll_construct_vertical@Base 0.1.0
  gw_scroll_direction_get_type@Base 0.1.0
@@ -340,5 +339,3 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_window_new@Base 0.1.0
  gw_window_set_on_screen@Base 0.1.0
  gw_window_set_screen@Base 0.1.0
- gw_window_show@Base 0.1.0
- gw_window_show_on_screen@Base 0.1.0

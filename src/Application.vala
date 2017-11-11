@@ -51,12 +51,19 @@ namespace Gw {
      * }}}
      */
     public class Application : Grx.Application {
+        Screen _screen;
+
+        /**
+         * Gets the screen for this application.
+         */
+        public Screen screen { get { return _screen; } }
+
         public Application () throws GLib.Error {
             Object ();
             init ();
-            Screen.active_screen = new Screen ();
+            _screen = new Screen ();
             notify["is-active"].connect ((s, p) => {
-                Screen.can_draw = is_active;
+                _screen.can_draw = is_active;
             });
         }
 
@@ -65,7 +72,7 @@ namespace Gw {
                 return true;
             }
             if (event.type == Grx.EventType.KEY_DOWN) {
-                Screen.active_screen.queue_key_code (event.key.keysym);
+                _screen.queue_key_code (event.key.keysym);
                 return true;
             }
             return false;

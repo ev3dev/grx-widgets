@@ -170,7 +170,7 @@ namespace Gw {
                 on_screen_keyboard.text = text;
                 on_screen_keyboard.accepted.connect (commit_editing);
                 on_screen_keyboard.canceled.connect (cancel_editing);
-                on_screen_keyboard.show ();
+                window.screen.push_window (on_screen_keyboard);
             }
         }
 

@@ -111,27 +111,6 @@ namespace Gw {
         }
 
         /**
-         * Make the window visible by putting it on top of the window stack of
-         * the active screen.
-         */
-        public void show () {
-            show_on_screen (Screen.active_screen);
-        }
-
-        /**
-         * Make the window visible by putting it on top of the window stack.
-         *
-         * @param screen The screen to show the window on.
-         */
-        public void show_on_screen (Screen screen) {
-            if (screen == null) {
-                critical ("No active screen.");
-                return;
-            }
-            screen.show_window (this);
-        }
-
-        /**
          * Remove the window from the window stack.
          *
          * If it was the top Window on the stack, the next window will become

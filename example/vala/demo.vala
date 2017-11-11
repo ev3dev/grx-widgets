@@ -41,7 +41,7 @@ public static int main (string[] args) {
             window.closed.connect (() => {
                 app.release ();
             });
-            window.show ();
+            app.screen.push_window (window);
             app.hold ();
         });
 
