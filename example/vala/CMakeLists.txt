@@ -39,7 +39,10 @@ target_link_libraries (VALA_DEMO
 
 add_custom_target (run-vala-demo
     COMMAND
-        ${CMAKE_CURRENT_BINARY_DIR}/demo
+        ${CMAKE_COMMAND} -E env
+            XDG_CONFIG_HOME=${CMAKE_SOURCE_DIR}/.vscode
+            LD_LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib
+            ${CMAKE_CURRENT_BINARY_DIR}/demo
     DEPENDS
         VALA_DEMO
 )
