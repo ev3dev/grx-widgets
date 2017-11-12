@@ -62,8 +62,6 @@ namespace Gw {
             this (new Label (text) {
                 margin_left = 3,
                 margin_right = 3,
-                 // hack for default font
-                padding_top = font == null ? -2 : 0,
                 font = font ?? Fonts.get_default ()
             });
         }
