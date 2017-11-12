@@ -20,7 +20,7 @@ using Grx;
 
 namespace Gw {
     /**
-     * A wiget for getting user input.
+     * A widget for getting user input.
      */
     public class TextEntry : Gw.Widget {
         const string CONTINUE_RIGHT = "\xbb";
@@ -328,7 +328,7 @@ namespace Gw {
                 label.text = text;
                 text_offset = 0;
             } else {
-                // FIXME: draw elipsis (...) or arrows instead of using text for contrinue left/right
+                // FIXME: draw ellipsis (...) or arrows instead of using text for continue left/right
                 if (!editing && text_offset > CONTINUE_LEFT.length)
                     cursor_offset = text_offset;
                 if (editing && cursor_offset < text_offset)
