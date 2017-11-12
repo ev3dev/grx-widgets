@@ -20,6 +20,27 @@ class DemoWindow : Window {
     public DemoWindow () {
         var menu = new Gw.Menu ();
 
+        var button_item = new Gw.MenuItem ("Buttons");
+        menu.add_menu_item (button_item);
+
+        var dialog_item = new Gw.MenuItem ("Dialogs");
+        menu.add_menu_item (dialog_item);
+
+        var font_item = new Gw.MenuItem ("Fonts");
+        menu.add_menu_item (font_item);
+
+        var label_item = new Gw.MenuItem ("Labels");
+        menu.add_menu_item (label_item);
+
+        var menu_item = new Gw.MenuItem ("Menus");
+        menu.add_menu_item (menu_item);
+
+        var status_bar_item = new Gw.MenuItem ("Status Bar");
+        menu.add_menu_item (status_bar_item);
+
+        var text_entry_item = new Gw.MenuItem ("Text Entry");
+        menu.add_menu_item (text_entry_item);
+
         var quit_item = new Gw.MenuItem ("Quit");
         quit_item.button.pressed.connect (() => {
             close ();
