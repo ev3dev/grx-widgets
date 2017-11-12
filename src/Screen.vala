@@ -262,5 +262,24 @@ namespace Gw {
             }
             return true;
         }
+
+        /**
+         * Get the widget at the specified x/y coordinates.
+         * 
+         * @param x     The x coordinate
+         * @param y     The y coordinate
+         * @returns     The widget at the coordinate or ``null`` if there was
+         *              no widget (e.g. x/y is in the status bar).
+         */
+        public Widget? get_widget_at (int x, int y) requires (x >= 0 && x < width && y >= 0 && y < height) {
+            if (y < window_y) {
+                // in the status bar
+                return null;
+            }
+            if (top_window == null) {
+                return null;
+            }
+            return top_window.recursive_get_widget_at (x, y);
+        }
     }
 }

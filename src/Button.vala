@@ -99,5 +99,14 @@ namespace Gw {
             }
             return base.key_pressed (key_code);
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        public override bool button_released (ButtonEvent event) {
+            pressed ();
+            Signal.stop_emission_by_name (this, "button-released");
+            return true;
+        }
     }
 }

@@ -74,11 +74,32 @@ namespace Gw {
             if (base.event (event)) {
                 return true;
             }
-            if (event.type == Grx.EventType.KEY_DOWN) {
+            switch (event.type) {
+            case Grx.EventType.KEY_DOWN:
                 _screen.queue_key_code (event.key.keysym);
-                return true;
+                break;
+            case Grx.EventType.BUTTON_PRESS:
+                int x, y;
+                event.get_coords (out x, out y);
+                var widget = _screen.get_widget_at (x, y);
+                if (widget != null) {
+                    widget.button_pressed (event.button);
+                }
+                break;
+            case Grx.EventType.BUTTON_RELEASE:
+                int x, y;
+                event.get_coords (out x, out y);
+                var widget = _screen.get_widget_at (x, y);
+                // FIXME: this should trigger an event on the widget
+                if (widget != null) {
+                    widget.button_released (event.button);
+                }
+                break;
+            default:
+                return false;
             }
-            return false;
+
+            return true;
         }
     }
 }

@@ -778,6 +778,26 @@ namespace Gw {
             return null;
         }
 
+        internal Widget? recursive_get_widget_at (int x, int y) {
+            var container = this as Container;
+            if (container != null) {
+                foreach (var child in container.children) {
+                    var match = child.recursive_get_widget_at (x, y);
+                    if (match != null) {
+                        return match;
+                    }
+                }
+            }
+            if (x < border_bounds.x1 || x > border_bounds.x2) {
+                return null;
+            }
+            if (y < border_bounds.y1 || y > border_bounds.y2) {
+                return null;
+            }
+            return this;
+        }
+
+
         /* drawing functions */
 
         /**
@@ -878,7 +898,7 @@ namespace Gw {
         /**
          * Emitted when a key is pressed.
          *
-         * This event is propitiated to all child widgets until a signal handler
+         * This event is propagated to all child widgets until a signal handler
          * returns ``true`` to indicate that the key has been handled.
          *
          * Due to a shortcoming in vala, you currently also have to call
@@ -910,6 +930,33 @@ namespace Gw {
                 Signal.stop_emission_by_name (this, "key-pressed");
                 return true;
             }
+            return false;
+        }
+
+        public virtual signal bool button_pressed (ButtonEvent event) {
+            if (focus ()) {
+                Signal.stop_emission_by_name (this, "button-pressed");
+                return true;
+            }
+
+            if (parent != null) {
+                if (parent.button_pressed (event)) {
+                    Signal.stop_emission_by_name (this, "button-pressed");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public virtual signal bool button_released (ButtonEvent event) {
+            if (parent != null) {
+                if (parent.button_released (event)) {
+                    Signal.stop_emission_by_name (this, "button-released");
+                    return true;
+                }
+            }
+
             return false;
         }
     }
