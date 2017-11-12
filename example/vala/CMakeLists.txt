@@ -17,6 +17,7 @@ vala2c (VALA_DEMO_C_FILES SOURCE_FILES demo.vala
         grx-3.0
     VAPI_DIRS
         ${CMAKE_BINARY_DIR}/src
+        ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_VAPIDIR}
     TARGET_GLIB 2.48
     DEPENDS
         ${CMAKE_BINARY_DIR}/src/${PACKAGE_NAME}.vapi
