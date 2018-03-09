@@ -21,6 +21,10 @@
                     "name": "GRX_DRIVER",
                     // Adafruit 2.4" RPi touchscreen
                     "value": "gw 320 gh 240 gc 16 dp 143"
+                },
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/build/src"
                 }
             ],
             "externalConsole": true,
