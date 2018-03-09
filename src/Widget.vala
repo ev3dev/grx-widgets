@@ -270,8 +270,6 @@ namespace Gw {
         weak Widget? _next_focus_widget_up;
         /**
          * Gets and sets the next widget to focus when navigating up.
-         *
-         * This is used to override the default focus traversal and is not required.
          */
         public Widget? next_focus_widget_up {
             get { return _next_focus_widget_up; }
@@ -292,8 +290,6 @@ namespace Gw {
         weak Widget? _next_focus_widget_down;
         /**
          * Gets and sets the next widget to focus when navigating down.
-         *
-         * This is used to override the default focus traversal and is not required.
          */
         public Widget? next_focus_widget_down {
             get { return _next_focus_widget_down; }
@@ -314,8 +310,6 @@ namespace Gw {
         weak Widget? _next_focus_widget_left;
         /**
          * Gets and sets the next widget to focus when navigating left.
-         *
-         * This is used to override the default focus traversal and is not required.
          */
         public Widget? next_focus_widget_left {
             get { return _next_focus_widget_left; }
@@ -336,8 +330,6 @@ namespace Gw {
         weak Widget? _next_focus_widget_right;
         /**
          * Gets and sets the next widget to focus when navigating right.
-         *
-         * This is used to override the default focus traversal and is not required.
          */
         public Widget? next_focus_widget_right {
             get { return _next_focus_widget_right; }
@@ -572,130 +564,35 @@ namespace Gw {
          * Focuses the next widget in the specified direction.
          *
          * If this widget has one of the ``next_focus_widget_*`` properties set
-         * it will use that value, otherwise, it focus the next widget in the
-         * same Window in that direction. Focus will "wrap" around the screen
-         * if no widgets are found in the specified direction.
+         * it will use that value, otherwise focus will not change.
          *
          * @param direction The direction pass the focus.
          */
         public void focus_next (FocusDirection direction) {
             if (window == null)
                 return;
-            weak Widget best = this;
-            // first, check to see if next focus was set manually.
+
+            weak Widget next;
             switch (direction) {
             case FocusDirection.UP:
-                if (_next_focus_widget_up != null)
-                    best = _next_focus_widget_up;
+                next = _next_focus_widget_up;
                 break;
             case FocusDirection.DOWN:
-                if (_next_focus_widget_down != null)
-                    best = _next_focus_widget_down;
+                next = _next_focus_widget_down;
                 break;
             case FocusDirection.LEFT:
-                if (_next_focus_widget_left != null)
-                    best = _next_focus_widget_left;
+                next = _next_focus_widget_left;
                 break;
             case FocusDirection.RIGHT:
-                if (_next_focus_widget_right != null)
-                    best = _next_focus_widget_right;
+                next = _next_focus_widget_right;
+                break;
+            default:
+                next = null;
                 break;
             }
-            if (best != this) {
-                best.focus ();
-                return;
+            if (next != null) {
+                next.focus ();
             }
-            // if next focus was not specified, make an educated guess by
-            // comparing the distance between the centers of widgets. Widgets
-            // that are inline with each other are preferred. By "inline" we
-            // mean that if the currently focused widget were expanded
-            // infinitely either vertically or horizontally depending on the
-            // focus direction, it would intersect the widget that we are
-            // testing. If widgets are not inline, we add uint.MAX / 2 to the
-            // distance between them so that they will only be the best if there
-            // are no other inline widgets. If the widget being testing is in
-            // the opposite direction of the currently focused widget, we add
-            // uint.MAX / 4 to the distance. This allows focus to wrap around.
-            // In other words, if a widget is the bottom-most and focus direction
-            // is down, the next focused widget will be the top-most. Since we
-            // are using uint.MAX / 4 here, that means the total height or width
-            // including scroll areas cannot exceed that number or unexpected
-            // behavior will occur.
-            uint best_distance = uint.MAX;
-            window.do_recursive_children ((widget) => {
-                if (widget == this || !widget.can_focus) {
-                    return null;
-                }
-                var not_visible = widget.do_recursive_parent ((w) => {
-                    return w.visible ? null : w;
-                });
-                if (not_visible != null) {
-                    return null;
-                }
-                uint widget_distance_x = 0;
-                if (widget.border_bounds.x1 > border_bounds.x1 || widget.border_bounds.x2 < border_bounds.x2)
-                    widget_distance_x = ((widget.border_bounds.x1 + widget.border_bounds.x2)
-                        - (border_bounds.x1 + border_bounds.x2)).abs ();
-                uint widget_distance_y = 0;
-                if (widget.border_bounds.y1 > border_bounds.y1 || widget.border_bounds.y2 < border_bounds.y2)
-                    widget_distance_y = ((widget.border_bounds.y1 + widget.border_bounds.y2)
-                        - (border_bounds.y1 + border_bounds.y2)).abs ();
-                switch (direction) {
-                case FocusDirection.UP:
-                    widget_distance_y = (widget.border_bounds.y2 - border_bounds.y1).abs ();
-                    if (widget.border_bounds.y1 >= border_bounds.y1)
-                        widget_distance_y = uint.MAX / 4 - widget_distance_y;
-                    if (widget.border_bounds.x1 > border_bounds.x2 || widget.border_bounds.x2 < border_bounds.x1)
-                        widget_distance_x += uint.MAX / 2;
-                    break;
-                case FocusDirection.DOWN:
-                    widget_distance_y = (widget.border_bounds.y1 - border_bounds.y2).abs ();
-                    if (widget.border_bounds.y2 <= border_bounds.y2)
-                        widget_distance_y = uint.MAX / 4 - widget_distance_y;
-                    if (widget.border_bounds.x1 > border_bounds.x2 || widget.border_bounds.x2 < border_bounds.x1)
-                        widget_distance_x += uint.MAX / 2;
-                    break;
-                case FocusDirection.LEFT:
-                    widget_distance_x = (widget.border_bounds.x2 - border_bounds.x1).abs ();
-                    if (widget.border_bounds.x1 >= border_bounds.x1)
-                        widget_distance_x = uint.MAX / 4 - widget_distance_x;
-                    if (widget.border_bounds.y1 > border_bounds.y2 || widget.border_bounds.y2 < border_bounds.y1)
-                        widget_distance_y += uint.MAX / 2;
-                    break;
-                case FocusDirection.RIGHT:
-                    widget_distance_x = (widget.border_bounds.x1 - border_bounds.x2).abs ();
-                    if (widget.border_bounds.x2 <= border_bounds.x2)
-                        widget_distance_x = uint.MAX / 4 - widget_distance_x;
-                    if (widget.border_bounds.y1 > border_bounds.y2 || widget.border_bounds.y2 < border_bounds.y1)
-                        widget_distance_y += uint.MAX / 2;
-                    break;
-                }
-                if ((widget_distance_x + widget_distance_y) < best_distance) {
-                    best = widget;
-                    best_distance = widget_distance_x + widget_distance_y;
-                }
-                return null;
-            });
-            // if we could not find another widget nearby, focus the next widget
-            // in the window or if all else fails, the first widget in the window.
-            if (best == this) {
-                var found_this = false;
-                weak Widget first = null;
-                var next = window.do_recursive_children ((widget) => {
-                    if (!widget.can_focus || !widget.visible)
-                        return null;
-                    if (found_this)
-                        return widget;
-                    if (widget == this)
-                        found_this = true;
-                    else if (first == null)
-                        first = widget;
-                    return null;
-                }, direction == FocusDirection.UP || direction == FocusDirection.LEFT);
-                best = next ?? first;
-            }
-            if (best != null)
-                best.focus ();
         }
 
         /**
