@@ -6,7 +6,6 @@ pkg_check_modules (VALA_DEMO_PUBLIC_DEPS REQUIRED ${VALA_DEMO_PUBLIC_MODULES})
 
 
 find_package (Valac REQUIRED)
-find_package (PkgConfig REQUIRED)
 
 vala2c(gw-demo-vala SOURCE_FILES demo.vala
     PACKAGES
