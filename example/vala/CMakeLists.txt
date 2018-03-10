@@ -37,6 +37,8 @@ target_link_libraries (VALA_DEMO
     ${VALA_DEMO_PUBLIC_DEPS_LIBRARIES}
 )
 
+install(TARGETS VALA_DEMO DESTINATION ${CMAKE_INSTALL_LIBPKGDIR}/example/vala)
+
 add_custom_target (run-vala-demo
     COMMAND
         ${CMAKE_COMMAND} -E env
