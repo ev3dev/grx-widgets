@@ -16,6 +16,8 @@
 
 /* Application.vala - Graphics mode console application */
 
+using Grx;
+
 /**
  * Library for building user interfaces on small screens (like the EV3 LCD).
  *
@@ -38,11 +40,11 @@ namespace Gw {
      *         // Program-specific initialization goes here. It must include something
      *         // that calls Application.quit () when the program is finished.
      *
-     *         var ret = Application.run (args);
+     *         var exit_code = Application.run (args);
      *
      *         // Any additional cleanup needed before application exits goes here.
      *
-     *         return ret;
+     *         return exit_code;
      *     } catch (Error err) {
      *         critical ("%s", err.message);
      *         return 1;
@@ -51,23 +53,28 @@ namespace Gw {
      * }}}
      */
     public class Application : Grx.Application {
-        Screen _screen;
+        //  Screen _screen;
 
-        /**
-         * Gets the screen for this application.
-         */
-        public Screen screen { get { return _screen; } }
+        //  /**
+        //   * Gets the screen for this application.
+        //   */
+        //  public Screen screen { get { return _screen; } }
 
         public Application () throws GLib.Error {
             Object ();
             init ();
-            _screen = new Screen ();
-            _screen.refresh.connect (() => {
-                if (!is_active) {
-                    // Don't update to screen if app is not active
-                    Signal.stop_emission_by_name (_screen, "refresh");
-                }
-            });
+            //  _screen = new Screen ();
+            //  _screen.refresh.connect (() => {
+            //      if (!is_active) {
+            //          // Don't update to screen if app is not active
+            //          Signal.stop_emission_by_name (_screen, "refresh");
+            //      }
+            //  });
+        }
+
+        public override void startup () {
+            base.startup ();
+            hold ();
         }
 
         public override bool event (Grx.Event event) {
@@ -76,24 +83,33 @@ namespace Gw {
             }
             switch (event.type) {
             case Grx.EventType.KEY_DOWN:
-                _screen.queue_key_code (event.key.keysym);
+                //  _screen.queue_key_code (event.key.keysym);
+                var keychar = event.keychar.to_string ();
+                message ("key down: %d, %s", event.keysym, keychar);
+                break;
+            case Grx.EventType.KEY_UP:
+                //  _screen.queue_key_code (event.key.keysym);
+                var keychar = event.keychar.to_string ();
+                message ("key up: %d, %s", event.keysym, keychar);
                 break;
             case Grx.EventType.BUTTON_PRESS:
                 int x, y;
                 event.get_coords (out x, out y);
-                var widget = _screen.get_widget_at (x, y);
-                if (widget != null) {
-                    widget.button_pressed (event.button);
-                }
+                message ("button press: %d, %d", x, y);
+                //  var widget = _screen.get_widget_at (x, y);
+                //  if (widget != null) {
+                //      widget.button_pressed (event.button);
+                //  }
                 break;
             case Grx.EventType.BUTTON_RELEASE:
                 int x, y;
                 event.get_coords (out x, out y);
-                var widget = _screen.get_widget_at (x, y);
-                // FIXME: this should trigger an event on the widget
-                if (widget != null) {
-                    widget.button_released (event.button);
-                }
+                message ("button release: %d, %d", x, y);
+                //  var widget = _screen.get_widget_at (x, y);
+                //  // FIXME: this should trigger an event on the widget
+                //  if (widget != null) {
+                //      widget.button_released (event.button);
+                //  }
                 break;
             default:
                 return false;

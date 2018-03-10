@@ -16,40 +16,40 @@
 
 using Gw;
 
-class DemoWindow : Window {
-    public DemoWindow () {
-        var menu = new Gw.Menu ();
+//  class DemoWindow : Window {
+//      public DemoWindow () {
+//          var menu = new Gw.Menu ();
 
-        var button_item = new Gw.MenuItem ("Buttons");
-        menu.add_menu_item (button_item);
+//          var button_item = new Gw.MenuItem ("Buttons");
+//          menu.add_menu_item (button_item);
 
-        var dialog_item = new Gw.MenuItem ("Dialogs");
-        menu.add_menu_item (dialog_item);
+//          var dialog_item = new Gw.MenuItem ("Dialogs");
+//          menu.add_menu_item (dialog_item);
 
-        var font_item = new Gw.MenuItem ("Fonts");
-        menu.add_menu_item (font_item);
+//          var font_item = new Gw.MenuItem ("Fonts");
+//          menu.add_menu_item (font_item);
 
-        var label_item = new Gw.MenuItem ("Labels");
-        menu.add_menu_item (label_item);
+//          var label_item = new Gw.MenuItem ("Labels");
+//          menu.add_menu_item (label_item);
 
-        var menu_item = new Gw.MenuItem ("Menus");
-        menu.add_menu_item (menu_item);
+//          var menu_item = new Gw.MenuItem ("Menus");
+//          menu.add_menu_item (menu_item);
 
-        var status_bar_item = new Gw.MenuItem ("Status Bar");
-        menu.add_menu_item (status_bar_item);
+//          var status_bar_item = new Gw.MenuItem ("Status Bar");
+//          menu.add_menu_item (status_bar_item);
 
-        var text_entry_item = new Gw.MenuItem ("Text Entry");
-        menu.add_menu_item (text_entry_item);
+//          var text_entry_item = new Gw.MenuItem ("Text Entry");
+//          menu.add_menu_item (text_entry_item);
 
-        var quit_item = new Gw.MenuItem ("Quit");
-        quit_item.button.pressed.connect (() => {
-            close ();
-        });
-        menu.add_menu_item (quit_item);
+//          var quit_item = new Gw.MenuItem ("Quit");
+//          quit_item.button.pressed.connect (() => {
+//              close ();
+//          });
+//          menu.add_menu_item (quit_item);
 
-        add (menu);
-    }
-}
+//          add (menu);
+//      }
+//  }
 
 public static int main (string[] args) {
     try {
@@ -58,21 +58,21 @@ public static int main (string[] args) {
         // basic apps need to handle the "activate" signal
         var activate_id = app.activate.connect (() => {
             message ("activated");
-            var window = new DemoWindow ();
-            window.closed.connect (() => {
-                app.release ();
-            });
-            app.screen.push_window (window);
-            app.hold ();
+            //  var window = new DemoWindow ();
+            //  window.closed.connect (() => {
+            //      app.release ();
+            //  });
+            //  app.screen.push_window (window);
+            //  app.hold ();
         });
 
-        var ret = app.run (args);
+        var exit_code = app.run (args);
 
         // there is a reference cycle on app in the activate callback, so we
         // need to disconnect in order to free the app object.
         app.disconnect (activate_id);
 
-        return ret;
+        return exit_code;
     }
     catch (Error err) {
         critical ("%s", err.message);

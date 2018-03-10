@@ -9,15 +9,23 @@ set (GIR_VERSION "0.1")
 set (PACKAGE_NAME "gw-${GIR_VERSION}")
 
 
+# Set environment variables based on install path.
+#
+# The intention here is that if you want to use a local install of GRX3,
+# then you can use the same CMAKE_INSTALL_PREFIX for GRX3 and this library.
+# Build and install GRX3 first, then run cmake for this library and it will
+# pick up the GRX3 library that you just installed.
+
+set (ENV{PKG_CONFIG_PATH} ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
+set (ENV{XDG_DATA_DIRS} ${CMAKE_INSTALL_PREFIX}/share:$ENV{XDG_DATA_DIRS})
+
 # global stuff
 
 list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-set (ENV{PKG_CONFIG_PATH} ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
 include(GNUInstallDirs)
 set (CMAKE_INSTALL_PKGDATADIR ${CMAKE_INSTALL_DATAROOTDIR}/${PACKAGE_NAME})
 set (CMAKE_INSTALL_PKGLIBDIR ${CMAKE_INSTALL_LIBDIR}/${PACKAGE_NAME})
-set (CMAKE_INSTALL_VAPIDIR ${CMAKE_INSTALL_DATAROOTDIR}/vala/vapi)
 
 set (SHARED_LIBRARY_TARGET ${PACKAGE_NAME}-shared)
 set (STATIC_LIBRARY_TARGET ${PACKAGE_NAME}-static)

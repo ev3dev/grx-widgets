@@ -8,7 +8,7 @@ pkg_check_modules (VALA_DEMO_PUBLIC_DEPS REQUIRED ${VALA_DEMO_PUBLIC_MODULES})
 find_package (Valac REQUIRED)
 find_package (PkgConfig REQUIRED)
 
-vala2c (VALA_DEMO_C_FILES SOURCE_FILES demo.vala
+vala2c(gw-demo-vala SOURCE_FILES demo.vala
     PACKAGES
         glib-2.0
         gobject-2.0
@@ -17,13 +17,13 @@ vala2c (VALA_DEMO_C_FILES SOURCE_FILES demo.vala
         grx-3.0
     VAPI_DIRS
         ${CMAKE_BINARY_DIR}/src
-        ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_VAPIDIR}
+        ${CMAKE_INSTALL_PREFIX}/share/vala/vapi
     TARGET_GLIB 2.48
     DEPENDS
         ${CMAKE_BINARY_DIR}/src/${PACKAGE_NAME}.vapi
 )
 
-add_executable (VALA_DEMO ${VALA_DEMO_C_FILES})
+add_executable(VALA_DEMO $<TARGET_PROPERTY:gw-demo-vala,C_FILES>)
 set_target_properties (VALA_DEMO PROPERTIES
     OUTPUT_NAME demo
 )
@@ -41,7 +41,7 @@ add_custom_target (run-vala-demo
     COMMAND
         ${CMAKE_COMMAND} -E env
             XDG_CONFIG_HOME=${CMAKE_SOURCE_DIR}/.vscode
-            LD_LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib
+            LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/src:${CMAKE_INSTALL_PREFIX}/lib
             ${CMAKE_CURRENT_BINARY_DIR}/demo
     DEPENDS
         VALA_DEMO

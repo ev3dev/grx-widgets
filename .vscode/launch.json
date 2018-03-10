@@ -5,6 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python demo",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "${workspaceFolder}/example/python/demo.py",
+            "cwd": "",
+            "console": "integratedTerminal",
+            "env": {
+                "XDG_CONFIG_HOME": "${workspaceFolder}/.vscode",
+                // Adafruit 2.4" RPi touchscreen
+                "GRX_DRIVER": "gw 320 gh 240 gc 16 dp 143",
+                "LD_LIBRARY_PATH": "${workspaceFolder}/build/src",
+                "GI_TYPELIB_PATH": "${workspaceFolder}/build/src"
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "debugOptions": [],
+            "internalConsoleOptions": "neverOpen",
+            "preLaunchTask": "build"
+        },
+        {
             "name": "Vala demo",
             "type": "cppdbg",
             "request": "launch",
