@@ -7,7 +7,6 @@ add_definitions (-w)
 set (SOURCE_FILES
     Application.vala
     Basis.vala
-    # Box.vala
     # Button.vala
     # CheckboxMenuItem.vala
     # CheckButton.vala
@@ -15,6 +14,7 @@ set (SOURCE_FILES
     # Dialog.vala
     Fonts.vala
     # Grid.vala
+    HBox.vala
     # Icon.vala
     # InputDialog.vala
     Label.vala
@@ -24,13 +24,12 @@ set (SOURCE_FILES
     # OnScreenKeyboard.vala
     # RadioMenuItem.vala
     Rectangle.vala
-    # Screen.vala
     # Scroll.vala
-    # Spacer.vala
     # Stack.vala
     # StatusBar.vala
     # StatusBarItem.vala
     # TextEntry.vala
+    VBox.vala
     Widget.vala
     Window.vala
     ${CMAKE_CURRENT_BINARY_DIR}/Version.vala

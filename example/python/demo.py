@@ -17,8 +17,12 @@ from gi.repository import Gw
 class DemoWindow(Gw.Window):
     def __init__(self):
         super(Gw.Window, self).__init__()
+
+        vbox = Gw.VBox.new()
+        self.add(vbox)
+
         label = Gw.Label.new('hello world!')
-        self.add(label)
+        vbox.add(label)
 
 
 def on_activate(app):

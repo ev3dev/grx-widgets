@@ -18,8 +18,11 @@ using Gw;
 
 class DemoWindow : Window {
     public DemoWindow () {
+        var vbox = new VBox ();
+        add (vbox);
+
         var label = new Label ("hello world!");
-        add (label);
+        vbox.add (label);
 //          var menu = new Gw.Menu ();
 
 //          var button_item = new Gw.MenuItem ("Buttons");
