@@ -23,21 +23,21 @@ vala2c(gw-demo-vala SOURCE_FILES demo.vala
         ${CMAKE_BINARY_DIR}/src/${PACKAGE_NAME}.vapi
 )
 
-add_executable(VALA_DEMO $<TARGET_PROPERTY:gw-demo-vala,C_FILES>)
-set_target_properties (VALA_DEMO PROPERTIES
+add_executable(vala-demo $<TARGET_PROPERTY:gw-demo-vala,C_FILES>)
+set_target_properties(vala-demo PROPERTIES
     OUTPUT_NAME demo
 )
-target_include_directories (VALA_DEMO
+target_include_directories(vala-demo
     PUBLIC
         ${CMAKE_BINARY_DIR}/src
         ${VALA_DEMO_PUBLIC_DEPS_INCLUDE_DIRS}
 )
-target_link_libraries (VALA_DEMO
+target_link_libraries(vala-demo
     ${SHARED_LIBRARY_TARGET}
     ${VALA_DEMO_PUBLIC_DEPS_LIBRARIES}
 )
 
-install(TARGETS VALA_DEMO DESTINATION ${CMAKE_INSTALL_LIBPKGDIR}/example/vala)
+install(TARGETS vala-demo DESTINATION ${CMAKE_INSTALL_LIBPKGDIR}/example/vala)
 
 add_custom_target (run-vala-demo
     COMMAND
@@ -46,5 +46,5 @@ add_custom_target (run-vala-demo
             LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/src:${CMAKE_INSTALL_PREFIX}/lib
             ${CMAKE_CURRENT_BINARY_DIR}/demo
     DEPENDS
-        VALA_DEMO
+        vala-demo
 )
