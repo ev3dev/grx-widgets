@@ -44,11 +44,15 @@ namespace Gw {
         /**
          * Gets the width of the rectangle.
          */
-        public int width { get { return x2 - x1 + 1; } }
+        public int get_width () {
+            return x2 - x1 + 1;
+        }
 
         /**
          * Gets the height of the rectangle.
          */
-        public int height { get { return y2 - y1 + 1; } }
+        public int get_height () {
+            return y2 - y1 + 1;
+        }
     }
 }

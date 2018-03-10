@@ -341,10 +341,12 @@ namespace Gw {
         /**
          * {@inheritDoc}
          */
-        protected override void do_layout () {
-            foreach (var child in children)
+        protected override void layout () {
+            foreach (var child in children) {
                 set_child_bounds (child, content_bounds.x1, content_bounds.y1,
                     content_bounds.x2, content_bounds.y2);
+                child.layout ();
+            }
         }
 
         /**

@@ -16,8 +16,10 @@
 
 using Gw;
 
-//  class DemoWindow : Window {
-//      public DemoWindow () {
+class DemoWindow : Window {
+    public DemoWindow () {
+        var label = new Label ("hello world!");
+        add (label);
 //          var menu = new Gw.Menu ();
 
 //          var button_item = new Gw.MenuItem ("Buttons");
@@ -48,8 +50,8 @@ using Gw;
 //          menu.add_menu_item (quit_item);
 
 //          add (menu);
-//      }
-//  }
+    }
+}
 
 public static int main (string[] args) {
     try {
@@ -57,13 +59,8 @@ public static int main (string[] args) {
 
         // basic apps need to handle the "activate" signal
         var activate_id = app.activate.connect (() => {
-            message ("activated");
-            //  var window = new DemoWindow ();
-            //  window.closed.connect (() => {
-            //      app.release ();
-            //  });
-            //  app.screen.push_window (window);
-            //  app.hold ();
+            var window = new DemoWindow ();
+            app.basis.show_window (window);
         });
 
         var exit_code = app.run (args);

@@ -18,15 +18,6 @@
 
 using Grx;
 
-/**
- * Library for building user interfaces on small screens (like the EV3 LCD).
- *
- * This library is modeled after GTK (and other modern UI toolkits). It uses
- * {@link Widget}s as the basic building blocks for building the user interface.
- * {@link Container}s are used to group and layout widgets. {@link Window}s are
- * the top-level Container and are displayed to the user using a {@link Screen}
- * that represents a physical screen.
- */
 namespace Gw {
     /**
      * Does all of the low level setting up so you don't have to.
@@ -53,69 +44,29 @@ namespace Gw {
      * }}}
      */
     public class Application : Grx.Application {
-        //  Screen _screen;
+        Basis _basis;
 
-        //  /**
-        //   * Gets the screen for this application.
-        //   */
-        //  public Screen screen { get { return _screen; } }
+        public Basis basis { get { return _basis; } }
 
         public Application () throws GLib.Error {
             Object ();
             init ();
-            //  _screen = new Screen ();
-            //  _screen.refresh.connect (() => {
-            //      if (!is_active) {
-            //          // Don't update to screen if app is not active
-            //          Signal.stop_emission_by_name (_screen, "refresh");
-            //      }
-            //  });
+            _basis = new Basis ();
         }
 
         public override void startup () {
             base.startup ();
             hold ();
+            notify["is-active"].connect ((s, p) => _basis.redraw ());
         }
 
-        public override bool event (Grx.Event event) {
+        public override bool event (Event event) {
+            // handle APP_* events and ignore events when app is not active
             if (base.event (event)) {
                 return true;
             }
-            switch (event.type) {
-            case Grx.EventType.KEY_DOWN:
-                //  _screen.queue_key_code (event.key.keysym);
-                var keychar = event.keychar.to_string ();
-                message ("key down: %d, %s", event.keysym, keychar);
-                break;
-            case Grx.EventType.KEY_UP:
-                //  _screen.queue_key_code (event.key.keysym);
-                var keychar = event.keychar.to_string ();
-                message ("key up: %d, %s", event.keysym, keychar);
-                break;
-            case Grx.EventType.BUTTON_PRESS:
-                int x, y;
-                event.get_coords (out x, out y);
-                message ("button press: %d, %d", x, y);
-                //  var widget = _screen.get_widget_at (x, y);
-                //  if (widget != null) {
-                //      widget.button_pressed (event.button);
-                //  }
-                break;
-            case Grx.EventType.BUTTON_RELEASE:
-                int x, y;
-                event.get_coords (out x, out y);
-                message ("button release: %d, %d", x, y);
-                //  var widget = _screen.get_widget_at (x, y);
-                //  // FIXME: this should trigger an event on the widget
-                //  if (widget != null) {
-                //      widget.button_released (event.button);
-                //  }
-                break;
-            default:
-                return false;
-            }
 
-            return true;
+           return _basis.do_event (event);
         }
     }
 }

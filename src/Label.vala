@@ -67,8 +67,8 @@ namespace Gw {
                 TextHAlign.CENTER,
                 TextVAlign.MIDDLE
             );
-            notify["text"].connect (redraw);
-            notify["font"].connect (redraw);
+            notify["text"].connect (invalidate_layout);
+            notify["font"].connect (invalidate_layout);
             notify["text-horizontal-align"].connect (redraw);
             notify["text-vertical-align"].connect (redraw);
         }
@@ -167,9 +167,10 @@ namespace Gw {
         /**
          * {@inheritDoc}
          */
-        protected override void redraw () {
+        protected override void invalidate_layout ()
+        {
             cached_lines = null;
-            base.redraw ();
+            base.invalidate_layout ();
         }
 
         /**
@@ -179,29 +180,29 @@ namespace Gw {
             if (_text == null)
                 return;
             if (parent.draw_children_as_focused)
-                text_option.fg_color = window.screen.bg_color;
+                text_option.fg_color = window.basis.select_fg_color;
             else
-                text_option.fg_color = window.screen.fg_color;
+                text_option.fg_color = window.basis.fg_color;
             int x = 0;
             switch (text_horizontal_align) {
             case TextHAlign.LEFT:
                 x = content_bounds.x1;
                 break;
             case TextHAlign.CENTER:
-                x = content_bounds.x1 + content_bounds.width / 2;
+                x = content_bounds.x1 + content_bounds.get_width () / 2;
                 break;
             case TextHAlign.RIGHT:
                 x = content_bounds.x2;
                 break;
             }
-            unowned SList<string> lines = get_lines_for_width (content_bounds.width);
+            unowned SList<string> lines = get_lines_for_width (content_bounds.get_width ());
             int y = 0;
             switch (text_vertical_align) {
             case TextVAlign.TOP:
                 y = content_bounds.y1;
                 break;
             case TextVAlign.MIDDLE:
-                y = content_bounds.y1 + (content_bounds.height + 1) / 2
+                y = content_bounds.y1 + (content_bounds.get_height () + 1) / 2
                     - (int)font.height * ((int)lines.length () - 1) / 2;
                 break;
             case TextVAlign.BOTTOM:

@@ -1,7 +1,7 @@
 /*
  * GRX Widgets - Widget toolkit for small displays
  *
- * Copyright 2014-2015 David Lechner <david@lechnology.com>
+ * Copyright 2014-2015,2018 David Lechner <david@lechnology.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -267,86 +267,6 @@ namespace Gw {
          */
         public bool has_focus { get; protected set; default = false; }
 
-        weak Widget? _next_focus_widget_up;
-        /**
-         * Gets and sets the next widget to focus when navigating up.
-         */
-        public Widget? next_focus_widget_up {
-            get { return _next_focus_widget_up; }
-            set {
-                if (_next_focus_widget_up != null)
-                    _next_focus_widget_up.weak_unref (remove_next_focus_widget_up);
-                _next_focus_widget_up = value;
-                if (_next_focus_widget_up != null)
-                    _next_focus_widget_up.weak_ref (remove_next_focus_widget_up);
-            }
-        }
-
-        void remove_next_focus_widget_up (Object obj) {
-            _next_focus_widget_up = null;
-            notify_property ("next-focus-widget-up");
-        }
-
-        weak Widget? _next_focus_widget_down;
-        /**
-         * Gets and sets the next widget to focus when navigating down.
-         */
-        public Widget? next_focus_widget_down {
-            get { return _next_focus_widget_down; }
-            set {
-                if (_next_focus_widget_down != null)
-                    _next_focus_widget_down.weak_unref (remove_next_focus_widget_down);
-                _next_focus_widget_down = value;
-                if (_next_focus_widget_down != null)
-                    _next_focus_widget_down.weak_ref (remove_next_focus_widget_down);
-            }
-        }
-
-        void remove_next_focus_widget_down (Object obj) {
-            _next_focus_widget_down = null;
-            notify_property ("next-focus-widget-down");
-        }
-
-        weak Widget? _next_focus_widget_left;
-        /**
-         * Gets and sets the next widget to focus when navigating left.
-         */
-        public Widget? next_focus_widget_left {
-            get { return _next_focus_widget_left; }
-            set {
-                if (_next_focus_widget_left != null)
-                    _next_focus_widget_left.weak_unref (remove_next_focus_widget_left);
-                _next_focus_widget_left = value;
-                if (_next_focus_widget_left != null)
-                    _next_focus_widget_left.weak_ref (remove_next_focus_widget_left);
-            }
-        }
-
-        void remove_next_focus_widget_left (Object obj) {
-            _next_focus_widget_left = null;
-            notify_property ("next-focus-widget-left");
-        }
-
-        weak Widget? _next_focus_widget_right;
-        /**
-         * Gets and sets the next widget to focus when navigating right.
-         */
-        public Widget? next_focus_widget_right {
-            get { return _next_focus_widget_right; }
-            set {
-                if (_next_focus_widget_right != null)
-                    _next_focus_widget_right.weak_unref (remove_next_focus_widget_right);
-                _next_focus_widget_right = value;
-                if (_next_focus_widget_right != null)
-                    _next_focus_widget_right.weak_ref (remove_next_focus_widget_right);
-            }
-        }
-
-        void remove_next_focus_widget_right (Object obj) {
-            _next_focus_widget_right = null;
-            notify_property ("next-focus-widget-right");
-        }
-
         /**
          * Gets the parent Container of this widget.
          *
@@ -400,26 +320,25 @@ namespace Gw {
         public Object? represented_object { get; set; }
 
         construct {
-            notify["margin-top"].connect (redraw);
-            notify["margin-bottom"].connect (redraw);
-            notify["margin-left"].connect (redraw);
-            notify["margin-right"].connect (redraw);
-            notify["border-top"].connect (redraw);
-            notify["border-bottom"].connect (redraw);
-            notify["border-left"].connect (redraw);
-            notify["border-right"].connect (redraw);
-            notify["border-radius"].connect (redraw);
-            notify["padding-top"].connect (redraw);
-            notify["padding-bottom"].connect (redraw);
-            notify["padding-left"].connect (redraw);
-            notify["padding-right"].connect (redraw);
+            notify["margin-top"].connect (invalidate_layout);
+            notify["margin-bottom"].connect (invalidate_layout);
+            notify["margin-left"].connect (invalidate_layout);
+            notify["margin-right"].connect (invalidate_layout);
+            notify["border-top"].connect (invalidate_layout);
+            notify["border-bottom"].connect (invalidate_layout);
+            notify["border-left"].connect (invalidate_layout);
+            notify["border-right"].connect (invalidate_layout);
+            notify["border-radius"].connect (invalidate_layout);
+            notify["padding-top"].connect (invalidate_layout);
+            notify["padding-bottom"].connect (invalidate_layout);
+            notify["padding-left"].connect (invalidate_layout);
+            notify["padding-right"].connect (invalidate_layout);
             notify["horizontal-align"].connect (redraw);
             notify["vertical-align"].connect (redraw);
-            notify["can-focus"].connect (redraw);
-            notify["has-focus"].connect (redraw);
             notify["visible"].connect (() => {
-                if (parent != null)
+                if (parent != null) {
                     parent.redraw ();
+                }
             });
             widget_count++;
             //debug ("Created %s widget: %p", get_type ().name (), this);
@@ -547,7 +466,7 @@ namespace Gw {
             }
 
             // at this point, we know we can focus this widget, so unfocus all
-            // other wigets.
+            // other widgets.
             if (window != null) {
                 window.do_recursive_children ((widget) => {
                     widget.has_focus = false;
@@ -558,41 +477,6 @@ namespace Gw {
             redraw ();
 
             return true;
-        }
-
-        /**
-         * Focuses the next widget in the specified direction.
-         *
-         * If this widget has one of the ``next_focus_widget_*`` properties set
-         * it will use that value, otherwise focus will not change.
-         *
-         * @param direction The direction pass the focus.
-         */
-        public void focus_next (FocusDirection direction) {
-            if (window == null)
-                return;
-
-            weak Widget next;
-            switch (direction) {
-            case FocusDirection.UP:
-                next = _next_focus_widget_up;
-                break;
-            case FocusDirection.DOWN:
-                next = _next_focus_widget_down;
-                break;
-            case FocusDirection.LEFT:
-                next = _next_focus_widget_left;
-                break;
-            case FocusDirection.RIGHT:
-                next = _next_focus_widget_right;
-                break;
-            default:
-                next = null;
-                break;
-            }
-            if (next != null) {
-                next.focus ();
-            }
         }
 
         /**
@@ -637,15 +521,17 @@ namespace Gw {
                     iter = container.children.last ();
                     do {
                         result = do_recursive_children_internal (iter.data, func, reverse);
-                        if (result != null)
+                        if (result != null) {
                             return result;
+                        }
                     } while ((iter = iter.prev) != null);
                 } else {
                     iter = container.children.first ();
                     do {
                         result = do_recursive_children_internal (iter.data, func, reverse);
-                        if (result != null)
+                        if (result != null) {
                             return result;
+                        }
                     } while ((iter = iter.next) != null);
                 }
             }
@@ -668,10 +554,12 @@ namespace Gw {
             Widget widget, WidgetFunc func)
         {
             var result = func (widget);
-            if (result != null)
+            if (result != null) {
                 return result;
-            if (widget.parent != null)
+            }
+            if (widget.parent != null) {
                 return do_recursive_parent_internal (widget.parent, func);
+            }
             return null;
         }
 
@@ -698,10 +586,19 @@ namespace Gw {
         /* drawing functions */
 
         /**
+         * Invalidates the layout. The layout will be re-calculated the next
+         * time the widget is drawn.
+         */
+        public virtual void invalidate_layout () {
+            if (parent != null) {
+                parent.invalidate_layout ();
+            }
+        }
+
+        /**
          * Notifies that this widget has changed and needs to be redrawn.
          *
-         * If this widget is displayed on a {@link Screen}, the Screen will be
-         * redrawn.
+         * If this widget is displayed, the basis will be redrawn.
          */
         public virtual void redraw () {
             if (_visible && parent != null)
@@ -714,7 +611,7 @@ namespace Gw {
          *
          * Mostly just {@link Container}s need to do this.
          */
-        protected virtual void do_layout () {
+        protected virtual void layout () {
         }
 
         /**
@@ -741,7 +638,7 @@ namespace Gw {
          *
          * For example Grid also draws a border between rows and columns.
          */
-        protected virtual void draw_border (Grx.Color color = window.screen.fg_color) {
+        protected virtual void draw_border (Grx.Color color = window.basis.fg_color) {
             if (border_top != 0)
                 draw_filled_box (border_bounds.x1 + border_radius, border_bounds.y1,
                     border_bounds.x2 - border_radius,
@@ -774,17 +671,19 @@ namespace Gw {
             }
         }
 
-        internal void draw () {
-            if (!visible)
+        /**
+         * Draws the widget on the current context.
+         */
+        protected void draw () {
+            if (!visible) {
                 return;
-            int x1;
-            int y1;
-            int x2;
-            int y2;
+            }
+
+            int x1, y1, x2, y2;
             get_clip_box (out x1, out y1, out x2, out y2);
-            if (bounds.x1 > x2 || bounds.y1 > y2 || bounds.x2 < x1 || bounds.y2 < y1)
+            if (bounds.x1 > x2 || bounds.y1 > y2 || bounds.x2 < x1 || bounds.y2 < y1) {
                 return;
-            do_layout ();
+            }
             draw_background ();
             draw_content ();
             draw_border ();
@@ -804,32 +703,38 @@ namespace Gw {
          * }}}
          * in addition to returning ``true``.
          */
-        public virtual signal bool key_pressed (uint key_code) {
-            if (can_focus && visible) {
-                FocusDirection direction;
-                switch (key_code) {
-                case Key.UP:
-                    direction = FocusDirection.UP;
-                    break;
-                case Key.DOWN:
-                    direction = FocusDirection.DOWN;
-                    break;
-                case Key.LEFT:
-                    direction = FocusDirection.LEFT;
-                    break;
-                case Key.RIGHT:
-                    direction = FocusDirection.RIGHT;
-                    break;
-                default:
-                    return false;
-                }
-                focus_next (direction);
-                Signal.stop_emission_by_name (this, "key-pressed");
-                return true;
-            }
+        public virtual signal bool key_pressed (KeyEvent event) {
             return false;
         }
 
+        /**
+         * Emitted when a key is released.
+         *
+         * This event is propagated to all child widgets until a signal handler
+         * returns ``true`` to indicate that the key has been handled.
+         *
+         * Due to a shortcoming in vala, you currently also have to call
+         * {{{
+         * Signal.stop_emission_by_name (this, "key-released");
+         * }}}
+         * in addition to returning ``true``.
+         */
+        public virtual signal bool key_released (KeyEvent event) {
+            return false;
+        }
+
+        /**
+         * Emitted when a button is pressed.
+         *
+         * This event is propagated to all parent widgets until a signal handler
+         * returns ``true`` to indicate that the key has been handled.
+         *
+         * Due to a shortcoming in vala, you currently also have to call
+         * {{{
+         * Signal.stop_emission_by_name (this, "button-pressed");
+         * }}}
+         * in addition to returning ``true``.
+         */
         public virtual signal bool button_pressed (ButtonEvent event) {
             if (focus ()) {
                 Signal.stop_emission_by_name (this, "button-pressed");
@@ -837,21 +742,27 @@ namespace Gw {
             }
 
             if (parent != null) {
-                if (parent.button_pressed (event)) {
-                    Signal.stop_emission_by_name (this, "button-pressed");
-                    return true;
-                }
+                return parent.button_pressed (event);
             }
 
             return false;
         }
 
+        /**
+         * Emitted when a button is released.
+         *
+         * This event is propagated to all parent widgets until a signal handler
+         * returns ``true`` to indicate that the key has been handled.
+         *
+         * Due to a shortcoming in vala, you currently also have to call
+         * {{{
+         * Signal.stop_emission_by_name (this, "button-released");
+         * }}}
+         * in addition to returning ``true``.
+         */
         public virtual signal bool button_released (ButtonEvent event) {
             if (parent != null) {
-                if (parent.button_released (event)) {
-                    Signal.stop_emission_by_name (this, "button-released");
-                    return true;
-                }
+                return parent.button_released (event);
             }
 
             return false;
