@@ -187,11 +187,6 @@ namespace Gw {
         }
 
         bool do_redraw () {
-            context.clear (bg_color);
-
-            set_current_context (status_bar_context);
-            // TODO: draw status bar
-
             var window = window_stack.peek_head ();
             if (window != null) {
                 set_current_context (window_context);
