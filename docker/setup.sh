@@ -4,15 +4,10 @@ set -e
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-build_dir="$1"
-if [ ! -n "$build_dir" ]; then
-    echo "Error: Must specify build directory"
-    exit 1
-fi
-
-case $2 in
+case $1 in
     armel|armhf)
-        arch=$2
+        arch=$1
+        build_dir="build-$arch"
         ;;
     *)
         echo "Error: Must specify 'armel' or 'armhf'"
