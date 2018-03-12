@@ -1,7 +1,7 @@
 /*
  * GRX Widgets - Widget toolkit for small displays
  *
- * Copyright 2017 David Lechner <david@lechnology.com>
+ * Copyright 2017-2018 David Lechner <david@lechnology.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,22 @@ class DemoWindow : Window {
 
         var label = new Label ("hello world!");
         vbox.add (label);
+
+        var button1 = new Button.with_label ("Click me!") {
+            margin = 3
+        };
+        button1.pressed.connect (() => {
+            message ("button1 pressed");
+        });
+        vbox.add (button1);
+
+        var button2 = new Button.with_label ("Click me too!") {
+            margin = 3
+        };
+        button2.pressed.connect (() => {
+            message ("button2 pressed");
+        });
+        vbox.add (button2);
 //          var menu = new Gw.Menu ();
 
 //          var button_item = new Gw.MenuItem ("Buttons");

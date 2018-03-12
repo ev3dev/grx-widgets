@@ -7,7 +7,7 @@ add_definitions (-w)
 set (SOURCE_FILES
     Application.vala
     Basis.vala
-    # Button.vala
+    Button.vala
     # CheckboxMenuItem.vala
     # CheckButton.vala
     Container.vala

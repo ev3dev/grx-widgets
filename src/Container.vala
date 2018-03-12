@@ -163,9 +163,10 @@ namespace Gw {
             requires (height > 0) ensures (result > 0)
         {
             result = get_margin_border_padding_width ();
-            if (child != null)
+            if (child != null) {
                 result += child.get_preferred_width_for_height (int.max (1,
                     height - get_margin_border_padding_height ()));
+            }
             return int.max (1, result);
         }
 
@@ -176,9 +177,10 @@ namespace Gw {
             requires (width > 0) ensures (result > 0)
         {
             result = get_margin_border_padding_height ();
-            if (child != null)
+            if (child != null) {
                 result += child.get_preferred_height_for_width (int.max (1,
                     width - get_margin_border_padding_width ()));
+            }
             return int.max (1, result);
         }
 
@@ -200,17 +202,19 @@ namespace Gw {
          * @param widget The Widget to add to this container.
          */
         public void add (Widget widget) requires (!(widget is Window)) {
-            if (widget.parent != null)
+            if (widget.parent != null) {
                 widget.parent.remove (widget);
+            }
             if (container_type == ContainerType.SINGLE) {
                 if (_children != null) {
                     remove (_children.data);
                 }
                 _children.prepend (widget);
-            } else
+            } else {
                 _children.append (widget);
+            }
             widget.parent = this;
-            redraw ();
+            invalidate_layout ();
             child_added (widget);
         }
 
@@ -239,13 +243,15 @@ namespace Gw {
             // Check to see if the widget is already a child of this container
             var old_index = _children.index (new_widget);
             // If it is and it is before the new insertion point, we need to adjust
-            if (old_index >= 0 && old_index < new_index)
+            if (old_index >= 0 && old_index < new_index) {
                 new_index -= 1;
-            if (new_widget.parent != null)
+            }
+            if (new_widget.parent != null) {
                 new_widget.parent.remove (new_widget);
+            }
             _children.insert (new_widget, new_index);
             new_widget.parent = this;
-            redraw ();
+            invalidate_layout ();
             child_added (new_widget);
         }
 
@@ -260,7 +266,7 @@ namespace Gw {
                 widget.unref (); // List<G>.remove () does not unref :-/
                 widget.parent = null;
                 widget.has_focus = false;
-                redraw ();
+                invalidate_layout ();
                 child_removed (widget);
             }
         }
@@ -272,7 +278,7 @@ namespace Gw {
          */
         public void sort (CompareDataFunc<Widget> func) {
             _children.sort_with_data (func);
-            redraw ();
+            invalidate_layout ();
         }
 
         /**
@@ -307,10 +313,12 @@ namespace Gw {
             var width = x2 - x1 + 1;
             var height = y2 - y1 + 1;
             // TODO add width_for_height
-            if (child.horizontal_align != WidgetAlign.FILL)
+            if (child.horizontal_align != WidgetAlign.FILL) {
                 width = int.min (width, child.get_preferred_width ());
-            if (child.vertical_align != WidgetAlign.FILL)
+            }
+            if (child.vertical_align != WidgetAlign.FILL) {
                 height = int.min (height, child.get_preferred_height_for_width (width));
+            }
             switch (child.horizontal_align) {
             case WidgetAlign.START:
                 x2 = x1 + width - 1;

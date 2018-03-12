@@ -35,6 +35,7 @@ target_link_libraries(vala-demo
     ${SHARED_LIBRARY_TARGET}
     ${VALA_DEMO_PUBLIC_DEPS_LIBRARIES}
 )
+target_compile_options(vala-demo PUBLIC "-w")
 
 install(TARGETS vala-demo DESTINATION ${CMAKE_INSTALL_LIBPKGDIR}/example/vala)
 

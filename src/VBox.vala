@@ -148,7 +148,39 @@ namespace Gw {
                 set_child_bounds (child, content_bounds.x1, y,
                     content_bounds.x2, y + height_map[child] - 1);
                 y += height_map[child] + spacing;
+                child.layout ();
             }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public override bool key_released (KeyEvent event) {
+            switch (event.keysym) {
+            case Key.UP:
+            case Key.KP_UP:
+                unowned List<Widget> node = _children.find (get_focused_child ());
+                for (node = node.nth_prev (1); node != null; node = node.prev) {
+                    if (node.data.focus ()) {
+                        break;
+                    }
+                }
+                break;
+            case Key.DOWN:
+            case Key.KP_DOWN:
+                unowned List<Widget> node = _children.find (get_focused_child ());
+                for (node = node.nth (1); node != null; node = node.next) {
+                    if (node.data.focus ()) {
+                        break;
+                    }
+                }
+                break;
+            default:
+                return base.key_released (event);
+            }
+
+            Signal.stop_emission_by_name (this, "key-released");
+            return true;
         }
     }
 }

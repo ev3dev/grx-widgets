@@ -46,6 +46,8 @@ namespace Gw {
         uint draw_timeout_id;
         bool is_layout_valid;
         bool is_clean;
+        int last_touch_x;
+        int last_touch_y;
 
         /**
          * Gets and sets the global foreground color.
@@ -65,7 +67,7 @@ namespace Gw {
         /**
          * Gets and sets the global selection highlight background color.
          */
-        public Color select_bg_color { get; set; default = Color.build_rgb (0, 0, 255); }
+        public Color select_bg_color { get; set; default = Color.@get (0, 0, 255); }
 
         construct {
             window_stack = new Queue<Window> ();
@@ -77,7 +79,7 @@ namespace Gw {
             if (window_context == null) {
                 critical ("Failed to create window subcontext for basis");
             }
-            status_bar_context = Context.new_subcontext (0, 0, 0, context.max_y, context);
+            status_bar_context = Context.new_subcontext (0, 0, context.max_x, 0, context);
             if (status_bar_context == null) {
                 critical ("Failed to create status bar subcontext for basis");
             }
@@ -87,7 +89,76 @@ namespace Gw {
          * Handle an event
          */
         public bool do_event (Event event) {
-            //  message ("%s", event.type.to_string ());
+            switch (event.type) {
+            case EventType.KEY_DOWN:
+                var widget = get_focused_widget ();
+                if (widget != null) {
+                    widget.key_pressed (event.key);
+                }
+                break;
+            case EventType.KEY_UP:
+                var widget = get_focused_widget ();
+                if (widget != null) {
+                    widget.key_released (event.key);
+                }
+                break;
+            case EventType.BUTTON_PRESS:
+                int x, y;
+                event.get_coords (out x, out y);
+                var widget = get_widget_at(x, y);
+                if (widget != null) {
+                    widget.button_pressed (event.button);
+                }
+                break;
+            case EventType.BUTTON_RELEASE:
+                int x, y;
+                event.get_coords (out x, out y);
+                var widget = get_widget_at(x, y);
+                if (widget != null) {
+                    widget.button_released (event.button);
+                }
+                break;
+            case EventType.TOUCH_DOWN:
+                event.get_coords (out last_touch_x, out last_touch_y);
+                var widget = get_widget_at(last_touch_x, last_touch_y);
+                if (widget != null) {
+                    // convert to button event
+                    ButtonEvent button_event = ButtonEvent() {
+                        type = EventType.BUTTON_PRESS,
+                        button = 1,
+                        x = last_touch_x,
+                        y = last_touch_y,
+                        modifiers = event.touch.modifiers,
+                        device = event.touch.device
+                    };
+                    widget.button_pressed (button_event);
+                }
+                break;
+            case EventType.TOUCH_MOTION:
+                // need to keep track of last position for TOUCH_UP event
+                event.get_coords (out last_touch_x, out last_touch_y);
+                break;
+            case EventType.TOUCH_UP:
+                // TOUCH_UP event coords x, y are always 0, 0 so we need to
+                // use the saved values instead
+                var widget = get_widget_at(last_touch_x, last_touch_y);
+                if (widget != null) {
+                    // convert to button event
+                    ButtonEvent button_event = ButtonEvent() {
+                        type = EventType.BUTTON_RELEASE,
+                        button = 1,
+                        x = last_touch_x,
+                        y = last_touch_y,
+                        modifiers = event.touch.modifiers,
+                        device = event.touch.device
+                    };
+                    widget.button_released (button_event);
+                }
+                break;
+            default:
+                return false;
+            }
+
             return true;
         }
 
@@ -124,6 +195,7 @@ namespace Gw {
             var window = window_stack.peek_head ();
             if (window != null) {
                 set_current_context (window_context);
+
                 if (!is_layout_valid) {
                     window.do_layout ();
                     is_layout_valid = true;
@@ -132,7 +204,11 @@ namespace Gw {
                 window.do_draw ();
             }
 
-            get_screen_context ().fast_bit_blt (0, 0, context, 0, 0, context.width, context.height);
+            unowned Context screen = get_screen_context ();
+            var flags = Mouse.block (screen, 0, 0, context.max_x, context.max_y);
+            screen.fast_bit_blt (0, 0, context, 0, 0, context.max_x, context.max_y);
+            Mouse.unblock (flags);
+
             is_clean = true;
 
             draw_timeout_id = 0;
@@ -151,6 +227,7 @@ namespace Gw {
             }
             window.basis = this;
             window_stack.push_head (window);
+            window.on_top = true;
             invalidate_layout ();
         }
 
@@ -177,6 +254,36 @@ namespace Gw {
                 return true;
             }
             return false;
+        }
+
+        Widget? get_focused_widget ()
+        {
+            var top_window = window_stack.peek_head ();
+            if (top_window == null) {
+                return null;
+            }
+            return top_window.get_focused_child ();
+        }
+
+        /**
+         * Get the widget at the specified x/y coordinates.
+         * 
+         * @param x     The x coordinate
+         * @param y     The y coordinate
+         * @returns     The widget at the coordinate or ``null`` if there was
+         *              no widget (e.g. x/y is in the status bar).
+         */
+        Widget? get_widget_at (int x, int y) requires (x >= 0 && x < context.width && y >= 0 && y < context.height) {
+            y -= status_bar_context.height;
+            if (y < 0) {
+                // in the status bar
+                return null;
+            }
+            var top_window = window_stack.peek_head ();
+            if (top_window == null) {
+                return null;
+            }
+            return top_window.recursive_get_widget_at (x, y);
         }
     }
 }

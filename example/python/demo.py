@@ -24,6 +24,16 @@ class DemoWindow(Gw.Window):
         label = Gw.Label.new('hello world!')
         vbox.add(label)
 
+        button1 = Gw.Button.with_label('Click me!')
+        button1.set_margin(3)
+        button1.connect('pressed', lambda _: print('button1 pressed'))
+        vbox.add(button1)
+
+        button2 = Gw.Button.with_label('Click me too!')
+        button2.set_margin(3)
+        button2.connect('pressed', lambda _: print('button2 pressed'))
+        vbox.add(button2)
+
 
 def on_activate(app):
     window = DemoWindow()

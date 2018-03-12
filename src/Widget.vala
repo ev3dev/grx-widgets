@@ -454,8 +454,9 @@ namespace Gw {
          * or ``false`` if this widget can't be focused.
          */
         public bool focus () {
-            if (!can_focus)
+            if (!can_focus) {
                 return false;
+            }
 
             // if this widget or any ancestor is not visible, then it can't be focused.
             var not_visible = do_recursive_parent ((widget) => {
@@ -473,6 +474,7 @@ namespace Gw {
                     return null;
                 });
             }
+
             has_focus = true;
             redraw ();
 
@@ -601,8 +603,9 @@ namespace Gw {
          * If this widget is displayed, the basis will be redrawn.
          */
         public virtual void redraw () {
-            if (_visible && parent != null)
+            if (_visible && parent != null) {
                 parent.redraw ();
+            }
         }
 
         /**
@@ -639,22 +642,26 @@ namespace Gw {
          * For example Grid also draws a border between rows and columns.
          */
         protected virtual void draw_border (Grx.Color color = window.basis.fg_color) {
-            if (border_top != 0)
+            if (border_top != 0) {
                 draw_filled_box (border_bounds.x1 + border_radius, border_bounds.y1,
                     border_bounds.x2 - border_radius,
                     border_bounds.y1 + border_top - 1, color);
-            if (border_bottom != 0)
+            }
+            if (border_bottom != 0) {
                 draw_filled_box (border_bounds.x1 + border_radius,
                     border_bounds.y2 - border_bottom + 1,
                     border_bounds.x2 - border_radius, border_bounds.y2, color);
-            if (border_left != 0)
+            }
+            if (border_left != 0) {
                 draw_filled_box (border_bounds.x1, border_bounds.y1 + border_radius,
                     border_bounds.x1 + border_left- 1,
                     border_bounds.y2 - border_radius, color);
-            if (border_right != 0)
-                draw_filled_box (border_bounds.x2 - border_left + 1,
+            }
+            if (border_right != 0) {
+                draw_filled_box (border_bounds.x2 - border_right + 1,
                     border_bounds.y1 + border_radius, border_bounds.x2,
                     border_bounds.y2 - border_radius, color);
+            }
             if (border_radius != 0) {
                 draw_circle_arc (border_bounds.x2 - border_radius,
                     border_bounds.y1 + border_radius, border_radius, 0, 900,
@@ -694,7 +701,7 @@ namespace Gw {
         /**
          * Emitted when a key is pressed.
          *
-         * This event is propagated to all child widgets until a signal handler
+         * This event is propagated to all parent widgets until a signal handler
          * returns ``true`` to indicate that the key has been handled.
          *
          * Due to a shortcoming in vala, you currently also have to call
@@ -704,13 +711,17 @@ namespace Gw {
          * in addition to returning ``true``.
          */
         public virtual signal bool key_pressed (KeyEvent event) {
+            if (parent != null) {
+                return parent.key_pressed (event);
+            }
+
             return false;
         }
 
         /**
          * Emitted when a key is released.
          *
-         * This event is propagated to all child widgets until a signal handler
+         * This event is propagated to all parent widgets until a signal handler
          * returns ``true`` to indicate that the key has been handled.
          *
          * Due to a shortcoming in vala, you currently also have to call
@@ -720,6 +731,10 @@ namespace Gw {
          * in addition to returning ``true``.
          */
         public virtual signal bool key_released (KeyEvent event) {
+            if (parent != null) {
+                return parent.key_released (event);
+            }
+
             return false;
         }
 

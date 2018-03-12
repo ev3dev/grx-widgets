@@ -1,7 +1,7 @@
 /*
  * GRX Widgets - Widget toolkit for small displays
  *
- * Copyright 2014 David Lechner <david@lechnology.com>
+ * Copyright 2014,2018 David Lechner <david@lechnology.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,8 +32,9 @@ namespace Gw {
         public signal void pressed ();
 
         construct {
-            if (container_type != ContainerType.SINGLE)
+            if (container_type != ContainerType.SINGLE) {
                 critical ("Requires container_type == ContainerType.SINGLE");
+            }
             border = 1;
             border_radius = 3;
             padding = 2;
@@ -47,8 +48,9 @@ namespace Gw {
          */
         public Button (Widget? child = null) {
             Object (container_type: ContainerType.SINGLE);
-            if (child != null)
+            if (child != null) {
                 add (child);
+            }
         }
 
         /**
@@ -71,8 +73,9 @@ namespace Gw {
          */
         protected override bool draw_children_as_focused {
             get {
-                if (has_focus)
+                if (has_focus) {
                     return true;
+                }
                 return base.draw_children_as_focused;
             }
         }
@@ -82,7 +85,7 @@ namespace Gw {
          */
         protected override void draw_background () {
             if (draw_children_as_focused) {
-                var color = window.screen.mid_color;
+                var color = window.basis.select_bg_color;
                 draw_filled_rounded_box (border_bounds.x1, border_bounds.y1,
                     border_bounds.x2, border_bounds.y2, border_radius, color);
             }
@@ -91,22 +94,53 @@ namespace Gw {
         /**
          * Default handler for the key_pressed signal.
          */
-        internal override bool key_pressed (uint key_code) {
-            if (key_code == Key.RETURN) {
+        internal override bool key_pressed (KeyEvent event) {
+            switch (event.keysym) {
+            case Key.RETURN:
+            case Key.SPACE:
+            case Key.KP_ENTER:
                 pressed ();
-                Signal.stop_emission_by_name (this, "key-pressed");
-                return true;
+                break;
+            default:
+                return base.key_pressed (event);
             }
-            return base.key_pressed (key_code);
+
+            Signal.stop_emission_by_name (this, "key-pressed");
+            return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public override bool button_pressed (ButtonEvent event) {
+            switch (event.button) {
+            case 1:
+                focus ();
+                break;
+            default:
+                return false;
+            }
+
+            Signal.stop_emission_by_name (this, "button-pressed");
+            return true;
         }
 
         /**
          * {@inheritDoc}
          */
         public override bool button_released (ButtonEvent event) {
-            pressed ();
-            Signal.stop_emission_by_name (this, "button-released");
-            return true;
+            switch (event.button) {
+                case 1:
+                    if (has_focus) {
+                        pressed ();
+                    }
+                    break;
+                default:
+                    return false;
+                }
+
+                Signal.stop_emission_by_name (this, "button-released");
+                return true;
         }
     }
 }
