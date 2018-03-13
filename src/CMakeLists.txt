@@ -15,7 +15,8 @@ set (SOURCE_FILES
     Fonts.vala
     # Grid.vala
     HBox.vala
-    # Icon.vala
+    Image.vala
+    IconSize.vala
     # InputDialog.vala
     Label.vala
     # Menu.vala

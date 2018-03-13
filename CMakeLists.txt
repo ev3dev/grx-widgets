@@ -49,6 +49,7 @@ endif (APPLE)
 # src goes first for depedency reasons
 add_subdirectory (src)
 
+add_subdirectory (data)
 add_subdirectory (example)
 
 

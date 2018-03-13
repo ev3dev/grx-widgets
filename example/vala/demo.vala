@@ -24,6 +24,15 @@ class DemoWindow : Window {
         var label = new Label ("hello world!");
         vbox.add (label);
 
+        var hbox = new HBox ();
+        vbox.add (hbox);
+
+        var image1 = new Image.from_icon_name ("bluetooth", IconSize.SMALL);
+        hbox.add (image1);
+
+        var image2 = new Image.from_icon_name ("bluetooth-connected", IconSize.SMALL);
+        hbox.add (image2);
+
         var button1 = new Button.with_label ("Click me!") {
             margin = 3
         };

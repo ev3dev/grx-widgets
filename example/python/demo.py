@@ -24,6 +24,16 @@ class DemoWindow(Gw.Window):
         label = Gw.Label.new('hello world!')
         vbox.add(label)
 
+        hbox = Gw.HBox.new()
+        vbox.add(hbox)
+
+        image1 = Gw.Image.from_icon_name('bluetooth', Gw.IconSize.SMALL)
+        hbox.add(image1)
+
+        image2 = Gw.Image.from_icon_name('bluetooth-connected',
+                                         Gw.IconSize.SMALL)
+        hbox.add(image2)
+
         button1 = Gw.Button.with_label('Click me!')
         button1.set_margin(3)
         button1.connect('pressed', lambda _: print('button1 pressed'))

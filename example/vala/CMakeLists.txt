@@ -43,6 +43,7 @@ add_custom_target (run-vala-demo
     COMMAND
         ${CMAKE_COMMAND} -E env
             XDG_CONFIG_HOME=${CMAKE_SOURCE_DIR}/.vscode
+            XDG_DATA_HOME=${CMAKE_SOURCE_DIR}/data
             LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/src:${CMAKE_INSTALL_PREFIX}/lib
             ${CMAKE_CURRENT_BINARY_DIR}/demo
     DEPENDS

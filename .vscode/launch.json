@@ -15,8 +15,17 @@
             "console": "integratedTerminal",
             "env": {
                 "XDG_CONFIG_HOME": "${workspaceFolder}/.vscode",
+                "XDG_DATA_HOME": "${workspaceFolder}/data",
+                // LEGO MINDSTORMS EV3
+                // "GRX_DRIVER": "gw 178 gh 128 gc 2 dp 115",
+                // no-name 2.2" TFT
+                // "GRX_DRIVER": "gw 220 gh 176 gc 16 dp 128",
+                // Adafruit 1.8" TFT
+                // "GRX_DRIVER": "gw 160 gh 128 gc 16 dp 114",
                 // Adafruit 2.4" RPi touchscreen
-                "GRX_DRIVER": "gw 320 gh 240 gc 16 dp 143",
+                "GRX_DRIVER": "gw 320 gh 240 gc 16 dp 167",
+                // Adafruit 2.8" RPi touchscreen
+                // "GRX_DRIVER": "gw 320 gh 240 gc 16 dp 143",
                 "LD_LIBRARY_PATH": "${workspaceFolder}/build/src",
                 "GI_TYPELIB_PATH": "${workspaceFolder}/build/src"
             },
@@ -39,9 +48,21 @@
                     "value": "${workspaceFolder}/.vscode"
                 },
                 {
+                    "name": "XDG_DATA_HOME",
+                    "value": "${workspaceFolder}/data"
+                },
+                {
                     "name": "GRX_DRIVER",
+                    // LEGO MINDSTORMS EV3
+                    // "value": "gw 178 gh 128 gc 2 dp 115"
+                    // no-name 2.2" TFT
+                    // "value": "gw 220 gh 176 gc 16 dp 128"
+                    // Adafruit 1.8" TFT
+                    // "value": "gw 160 gh 128 gc 16 dp 114"
                     // Adafruit 2.4" RPi touchscreen
-                    "value": "gw 320 gh 240 gc 16 dp 143"
+                    "value": "gw 320 gh 240 gc 16 dp 167"
+                    // Adafruit 2.8" RPi touchscreen
+                    // "value": "gw 320 gh 240 gc 16 dp 143"
                 },
                 {
                     "name": "LD_LIBRARY_PATH",
