@@ -32,7 +32,7 @@ namespace Gw {
      * +-----+-----+----------------+
      * }}}
      *
-     * If the last child Widget has ``horizontal_align == WidgetAlign.FILL``
+     * If the last child Widget has ``h_align == WidgetAlign.FILL``
      * then the last widget will be stretched to fill the remaining space.
      */
     public class HBox : Gw.Container {
@@ -119,14 +119,14 @@ namespace Gw {
                 _width_map[child] = child.get_preferred_width_for_height (container_height);
                 total_width += _width_map[child];
                 total_width += spacing;
-                if (child.horizontal_align == WidgetAlign.FILL) {
+                if (child.h_align == WidgetAlign.FILL) {
                     fill_count++;
                 }
             }
             total_width -= spacing;
             var extra_space = container_width - total_width;
             foreach (var child in _children) {
-               if (fill_count > 0 && child.horizontal_align == WidgetAlign.FILL) {
+               if (fill_count > 0 && child.h_align == WidgetAlign.FILL) {
                     var fill_width = extra_space / fill_count;
                     _width_map[child] = _width_map[child] + fill_width; // += does not work!
                     extra_space -= fill_width;

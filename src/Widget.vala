@@ -237,7 +237,7 @@ namespace Gw {
          *
          * This is used by the parent container to help layout the widget.
          */
-        public WidgetAlign horizontal_align {
+        public WidgetAlign h_align {
             get; set; default = WidgetAlign.FILL;
         }
 
@@ -246,7 +246,7 @@ namespace Gw {
          *
          * This is used by the parent container to help layout the widget.
          */
-        public WidgetAlign vertical_align {
+        public WidgetAlign v_align {
             get; set; default = WidgetAlign.FILL;
         }
 

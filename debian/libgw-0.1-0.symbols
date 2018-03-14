@@ -94,14 +94,14 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_label_construct@Base 0.1.0
  gw_label_get_font@Base 0.1.0
  gw_label_get_text@Base 0.1.0
- gw_label_get_text_horizontal_align@Base 0.1.0
- gw_label_get_text_vertical_align@Base 0.1.0
+ gw_label_get_text_h_align@Base 0.1.0
+ gw_label_get_text_v_align@Base 0.1.0
  gw_label_get_type@Base 0.1.0
  gw_label_new@Base 0.1.0
  gw_label_set_font@Base 0.1.0
  gw_label_set_text@Base 0.1.0
- gw_label_set_text_horizontal_align@Base 0.1.0
- gw_label_set_text_vertical_align@Base 0.1.0
+ gw_label_set_text_h_align@Base 0.1.0
+ gw_label_set_text_v_align@Base 0.1.0
  gw_menu_add_menu_item@Base 0.1.0
  gw_menu_construct@Base 0.1.0
  gw_menu_find_menu_item@Base 0.1.0
@@ -275,7 +275,7 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_widget_get_can_focus@Base 0.1.0
  gw_widget_get_focused_child@Base 0.1.0
  gw_widget_get_has_focus@Base 0.1.0
- gw_widget_get_horizontal_align@Base 0.1.0
+ gw_widget_get_h_align@Base 0.1.0
  gw_widget_get_margin_border_padding_height@Base 0.1.0
  gw_widget_get_margin_border_padding_width@Base 0.1.0
  gw_widget_get_margin_bottom@Base 0.1.0
@@ -297,7 +297,7 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_widget_get_preferred_width_for_height@Base 0.1.0
  gw_widget_get_represented_object@Base 0.1.0
  gw_widget_get_type@Base 0.1.0
- gw_widget_get_vertical_align@Base 0.1.0
+ gw_widget_get_v_align@Base 0.1.0
  gw_widget_get_visible@Base 0.1.0
  gw_widget_get_weak_represented_object@Base 0.1.0
  gw_widget_get_window@Base 0.1.0
@@ -311,7 +311,7 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_widget_set_bounds@Base 0.1.0
  gw_widget_set_can_focus@Base 0.1.0
  gw_widget_set_has_focus@Base 0.1.0
- gw_widget_set_horizontal_align@Base 0.1.0
+ gw_widget_set_h_align@Base 0.1.0
  gw_widget_set_margin@Base 0.1.0
  gw_widget_set_margin_bottom@Base 0.1.0
  gw_widget_set_margin_left@Base 0.1.0
@@ -328,7 +328,7 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_widget_set_padding_top@Base 0.1.0
  gw_widget_set_parent@Base 0.1.0
  gw_widget_set_represented_object@Base 0.1.0
- gw_widget_set_vertical_align@Base 0.1.0
+ gw_widget_set_v_align@Base 0.1.0
  gw_widget_set_visible@Base 0.1.0
  gw_widget_set_weak_represented_object@Base 0.1.0
  gw_window_close@Base 0.1.0

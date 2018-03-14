@@ -30,6 +30,7 @@ set (SOURCE_FILES
     # StatusBar.vala
     # StatusBarItem.vala
     # TextEntry.vala
+    TitleBar.vala
     VBox.vala
     Widget.vala
     Window.vala

@@ -69,6 +69,15 @@ namespace Gw {
         }
 
         /**
+         * Creates a new Button with a {@link Image} as the child.
+         *
+         * @param icon_name The name of the icon
+         */
+        public Button.with_icon (string icon_name) {
+            this (new Image.from_icon_name (icon_name, IconSize.SMALL));
+        }
+
+        /**
          * {@inheritDoc}
          */
         protected override bool draw_children_as_focused {

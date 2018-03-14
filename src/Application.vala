@@ -52,11 +52,12 @@ namespace Gw {
             Object ();
             init ();
             _basis = new Basis ();
+            basis.window_added.connect (() => hold ());
+            basis.window_removed.connect (() => release ());
         }
 
         public override void startup () {
             base.startup ();
-            hold ();
             notify["is-active"].connect ((s, p) => _basis.redraw ());
         }
 

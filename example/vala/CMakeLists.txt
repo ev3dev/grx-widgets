@@ -7,7 +7,10 @@ pkg_check_modules (VALA_DEMO_PUBLIC_DEPS REQUIRED ${VALA_DEMO_PUBLIC_MODULES})
 
 find_package (Valac REQUIRED)
 
-vala2c(gw-demo-vala SOURCE_FILES demo.vala
+vala2c(gw-demo-vala
+    SOURCE_FILES
+        demo.vala
+        ImageWindow.vala
     PACKAGES
         glib-2.0
         gobject-2.0

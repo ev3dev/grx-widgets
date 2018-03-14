@@ -313,13 +313,13 @@ namespace Gw {
             var width = x2 - x1 + 1;
             var height = y2 - y1 + 1;
             // TODO add width_for_height
-            if (child.horizontal_align != WidgetAlign.FILL) {
+            if (child.h_align != WidgetAlign.FILL) {
                 width = int.min (width, child.get_preferred_width ());
             }
-            if (child.vertical_align != WidgetAlign.FILL) {
+            if (child.v_align != WidgetAlign.FILL) {
                 height = int.min (height, child.get_preferred_height_for_width (width));
             }
-            switch (child.horizontal_align) {
+            switch (child.h_align) {
             case WidgetAlign.START:
                 x2 = x1 + width - 1;
                 break;
@@ -331,7 +331,7 @@ namespace Gw {
                 x1 = x2 - width + 1;
                 break;
             }
-            switch (child.vertical_align) {
+            switch (child.v_align) {
             case WidgetAlign.START:
                 y2 = y1 + height - 1;
                 break;

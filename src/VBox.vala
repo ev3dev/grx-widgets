@@ -120,14 +120,14 @@ namespace Gw {
                 _height_map[child] = child.get_preferred_height_for_width (content_bounds.get_width ());
                 total_height += _height_map[child];
                 total_height += spacing;
-                if (child.vertical_align == WidgetAlign.FILL) {
+                if (child.v_align == WidgetAlign.FILL) {
                     fill_count++;
                 }
             }
             total_height -= spacing;
             var extra_space = content_bounds.get_height () - total_height;
             foreach (var child in _children) {
-                if (fill_count > 0 && child.vertical_align == WidgetAlign.FILL) {
+                if (fill_count > 0 && child.v_align == WidgetAlign.FILL) {
                     var fill_height = extra_space / fill_count;
                     _height_map[child] = _height_map[child] + fill_height; // += does not work!
                     extra_space -= fill_height;

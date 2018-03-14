@@ -46,7 +46,7 @@ namespace Gw {
         /**
          * Gets and sets the horizontal text alignment.
          */
-        public TextHAlign text_horizontal_align {
+        public TextHAlign text_h_align {
             get { return text_option.h_align; }
             set { text_option.h_align = value; }
         }
@@ -54,7 +54,7 @@ namespace Gw {
         /**
          * Gets and sets the vertical text alignment.
          */
-        public TextVAlign text_vertical_align {
+        public TextVAlign text_v_align {
             get { return text_option.v_align; }
             set { text_option.v_align = value; }
         }
@@ -184,7 +184,7 @@ namespace Gw {
             else
                 text_option.fg_color = window.basis.fg_color;
             int x = 0;
-            switch (text_horizontal_align) {
+            switch (text_h_align) {
             case TextHAlign.LEFT:
                 x = content_bounds.x1;
                 break;
@@ -197,7 +197,7 @@ namespace Gw {
             }
             unowned SList<string> lines = get_lines_for_width (content_bounds.get_width ());
             int y = 0;
-            switch (text_vertical_align) {
+            switch (text_v_align) {
             case TextVAlign.TOP:
                 y = content_bounds.y1;
                 break;

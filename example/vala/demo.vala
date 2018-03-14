@@ -24,29 +24,19 @@ class DemoWindow : Window {
         var label = new Label ("hello world!");
         vbox.add (label);
 
-        var hbox = new HBox ();
-        vbox.add (hbox);
-
-        var image1 = new Image.from_icon_name ("bluetooth", IconSize.SMALL);
-        hbox.add (image1);
-
-        var image2 = new Image.from_icon_name ("bluetooth-connected", IconSize.SMALL);
-        hbox.add (image2);
-
-        var button1 = new Button.with_label ("Click me!") {
+        var button1 = new Button.with_label ("Images") {
             margin = 3
         };
         button1.pressed.connect (() => {
-            message ("button1 pressed");
+            var window = new ImageWindow ();
+            basis.show_window (window);
         });
         vbox.add (button1);
 
-        var button2 = new Button.with_label ("Click me too!") {
+        var button2 = new Button.with_label ("Quit") {
             margin = 3
         };
-        button2.pressed.connect (() => {
-            message ("button2 pressed");
-        });
+        button2.pressed.connect (() => close ());
         vbox.add (button2);
 //          var menu = new Gw.Menu ();
 

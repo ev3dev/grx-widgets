@@ -224,6 +224,7 @@ namespace Gw {
             window_stack.push_head (window);
             window.on_top = true;
             invalidate_layout ();
+            window_added (window);
         }
 
         /**
@@ -233,23 +234,32 @@ namespace Gw {
          * @return True if the window was removed.
          */
         internal bool close_window (Window window) {
+            // the last reference to window could be freed by pop_nth(), so
+            // use a local variable to take a reference.
+            var local_ref = window;
+
             var was_top_window = window_stack.peek_head () == window;
             var index = window_stack.index (window);
             if (index >= 0) {
                 window_stack.pop_nth (index);
-                if (window.ref_count > 0) {
-                    window.basis = null;
-                    window.on_top = false;
-                    window.closed ();
-                }
+                window.basis = null;
+                window.on_top = false;
+                window.closed ();
                 if (was_top_window && !window_stack.is_empty ()) {
                     window_stack.peek_head ().shown ();
                 }
                 invalidate_layout ();
+                window_removed (window);
                 return true;
             }
+
+            // have to use local_ref to keep compiler from complaining
+            local_ref = null;
             return false;
         }
+
+        public signal void window_added (Window window);
+        public signal void window_removed (Window window);
 
         Widget? get_focused_widget ()
         {

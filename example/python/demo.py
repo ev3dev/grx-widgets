@@ -13,6 +13,8 @@ from gi.repository import Grx
 gi.require_version('Gw', '0.1')
 from gi.repository import Gw
 
+from image import ImageWindow
+
 
 class DemoWindow(Gw.Window):
     def __init__(self):
@@ -24,25 +26,18 @@ class DemoWindow(Gw.Window):
         label = Gw.Label.new('hello world!')
         vbox.add(label)
 
-        hbox = Gw.HBox.new()
-        vbox.add(hbox)
+        btn1 = Gw.Button.with_label('Images')
+        btn1.set_margin(3)
+        btn1.connect('pressed', self.show_image_window)
+        vbox.add(btn1)
 
-        image1 = Gw.Image.from_icon_name('bluetooth', Gw.IconSize.SMALL)
-        hbox.add(image1)
+        btn2 = Gw.Button.with_label('Click me too!')
+        btn2.set_margin(3)
+        btn2.connect('pressed', lambda _: print('btn2 pressed'))
+        vbox.add(btn2)
 
-        image2 = Gw.Image.from_icon_name('bluetooth-connected',
-                                         Gw.IconSize.SMALL)
-        hbox.add(image2)
-
-        button1 = Gw.Button.with_label('Click me!')
-        button1.set_margin(3)
-        button1.connect('pressed', lambda _: print('button1 pressed'))
-        vbox.add(button1)
-
-        button2 = Gw.Button.with_label('Click me too!')
-        button2.set_margin(3)
-        button2.connect('pressed', lambda _: print('button2 pressed'))
-        vbox.add(button2)
+    def show_image_window(self, btn):
+        self.get_basis().show_window(ImageWindow())
 
 
 def on_activate(app):
