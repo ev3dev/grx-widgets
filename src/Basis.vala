@@ -49,26 +49,6 @@ namespace Gw {
         int last_touch_x;
         int last_touch_y;
 
-        /**
-         * Gets and sets the global foreground color.
-         */
-        public Color fg_color { get; set; default = Color.BLACK; }
-
-        /**
-         * Gets and sets the global background color.
-         */
-        public Color bg_color { get; set; default = Color.WHITE; }
-
-        /**
-         * Gets and sets the global selection highlight foreground color.
-         */
-        public Color select_fg_color { get; set; default = Color.WHITE; }
-
-        /**
-         * Gets and sets the global selection highlight background color.
-         */
-        public Color select_bg_color { get; set; default = Color.@get (0, 0, 255); }
-
         construct {
             window_stack = new Queue<Window> ();
             context = Context.@new (get_screen_width (), get_screen_height ());

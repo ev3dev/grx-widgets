@@ -64,7 +64,7 @@ namespace Gw {
             this (new Label (text) {
                 margin_left = 3,
                 margin_right = 3,
-                font = font ?? Fonts.get_default ()
+                font = font ?? Resource.get_default_font ()
             });
         }
 
@@ -94,7 +94,7 @@ namespace Gw {
          */
         protected override void draw_background () {
             if (draw_children_as_focused) {
-                var color = window.basis.select_bg_color;
+                var color = Resource.get_select_bg_color ();
                 draw_filled_rounded_box (border_bounds.x1, border_bounds.y1,
                     border_bounds.x2, border_bounds.y2, border_radius, color);
             }

@@ -641,7 +641,7 @@ namespace Gw {
          *
          * For example Grid also draws a border between rows and columns.
          */
-        protected virtual void draw_border (Grx.Color color = window.basis.fg_color) {
+        protected virtual void draw_border (Grx.Color color = Resource.get_fg_color ()) {
             if (border_top != 0) {
                 draw_filled_box (border_bounds.x1 + border_radius, border_bounds.y1,
                     border_bounds.x2 - border_radius,

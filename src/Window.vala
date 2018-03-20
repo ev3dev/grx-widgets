@@ -121,7 +121,7 @@ namespace Gw {
          * {@inheritDoc}
          */
         protected override void draw_background () {
-            var color = basis.bg_color;
+            var color = Resource.get_bg_color ();
             draw_filled_box (border_bounds.x1, border_bounds.y1, border_bounds.x2,
                 border_bounds.y2, color);
         }

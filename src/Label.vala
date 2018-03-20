@@ -61,7 +61,7 @@ namespace Gw {
 
         construct {
             text_option = new TextOptions (
-                Fonts.get_default (),
+                Resource.get_default_font (),
                 Color.BLACK,
                 Color.NONE,
                 TextHAlign.CENTER,
@@ -180,9 +180,9 @@ namespace Gw {
             if (_text == null)
                 return;
             if (parent.draw_children_as_focused)
-                text_option.fg_color = window.basis.select_fg_color;
+                text_option.fg_color = Resource.get_select_fg_color ();
             else
-                text_option.fg_color = window.basis.fg_color;
+                text_option.fg_color = Resource.get_fg_color ();
             int x = 0;
             switch (text_h_align) {
             case TextHAlign.LEFT:

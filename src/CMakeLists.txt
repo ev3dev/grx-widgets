@@ -12,7 +12,6 @@ set (SOURCE_FILES
     # CheckButton.vala
     Container.vala
     # Dialog.vala
-    Fonts.vala
     # Grid.vala
     HBox.vala
     Image.vala
@@ -25,6 +24,7 @@ set (SOURCE_FILES
     # OnScreenKeyboard.vala
     # RadioMenuItem.vala
     Rectangle.vala
+    Resource.vala
     # Scroll.vala
     # Stack.vala
     # StatusBar.vala
