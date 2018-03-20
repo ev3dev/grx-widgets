@@ -162,7 +162,8 @@ namespace Gw {
                 unowned List<Widget> node = _children.find (get_focused_child ());
                 for (node = node.nth_prev (1); node != null; node = node.prev) {
                     if (node.data.focus ()) {
-                        break;
+                        Signal.stop_emission_by_name (this, "key-released");
+                        return true;
                     }
                 }
                 break;
@@ -171,16 +172,14 @@ namespace Gw {
                 unowned List<Widget> node = _children.find (get_focused_child ());
                 for (node = node.nth (1); node != null; node = node.next) {
                     if (node.data.focus ()) {
-                        break;
+                        Signal.stop_emission_by_name (this, "key-released");
+                        return true;
                     }
                 }
                 break;
-            default:
-                return base.key_released (event);
             }
 
-            Signal.stop_emission_by_name (this, "key-released");
-            return true;
+            return base.key_released (event);
         }
     }
 }
