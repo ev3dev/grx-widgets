@@ -347,6 +347,63 @@ namespace Gw {
             return focus_widget != null;
         }
 
+        static int match_child_with_focused_descendant (Widget a, Widget b) {
+            if (a.has_focus) {
+                return 0;
+            }
+
+            var container = a as Container;
+            if (container == null) {
+                return 1;
+            }
+
+            return container.descendant_has_focus ? 0 : 1;
+        }
+
+        static bool try_focus (Widget widget)
+        {
+            if (widget.focus ()) {
+                return true;
+            }
+
+            var container = widget as Container;
+            if (container == null) {
+                return false;
+            }
+
+            return container.focus_first ();
+        }
+
+        /**
+         * Focuses the previous child of the container that can focus.
+         *
+         * @return true if the focus changed.
+         */
+        public bool focus_prev () {
+            unowned List<Widget> node = _children.find_custom (this, match_child_with_focused_descendant);
+            for (node = node.nth_prev (1); node != null; node = node.prev) {
+                if (try_focus (node.data)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Focuses the next child of the container that can focus.
+         *
+         * @return true if the focus changed.
+         */
+        public bool focus_next () {
+            unowned List<Widget> node = _children.find_custom (this, match_child_with_focused_descendant);
+            for (node = node.nth (1); node != null; node = node.next) {
+                if (try_focus (node.data)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /**
          * Searches this Widget and its children for the currently focused widget.
          *
