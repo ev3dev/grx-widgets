@@ -104,9 +104,19 @@ namespace Gw {
         /**
          * {@inheritDoc}
          */
+        public override void invalidate_layout () {
+            if (_basis != null && on_top) {
+                _basis.invalidate_layout ();
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
         public override void redraw () {
-            if (_basis != null && on_top)
+            if (_basis != null && on_top) {
                 _basis.redraw ();
+            }
         }
 
         /**
