@@ -158,7 +158,7 @@ namespace Gw {
             switch (event.keysym) {
             case Key.LEFT:
             case Key.KP_LEFT:
-                unowned List<Widget> node = _children.find (get_focused_child ());
+                unowned List<Widget> node = _children.find (get_focused_descendant ());
                 for (node = node.nth_prev (1); node != null; node = node.prev) {
                     if (node.data.focus ()) {
                         Signal.stop_emission_by_name (this, "key-released");
@@ -168,7 +168,7 @@ namespace Gw {
                 break;
             case Key.RIGHT:
             case Key.KP_RIGHT:
-                unowned List<Widget> node = _children.find (get_focused_child ());
+                unowned List<Widget> node = _children.find (get_focused_descendant ());
                 for (node = node.nth (1); node != null; node = node.next) {
                     if (node.data.focus ()) {
                         Signal.stop_emission_by_name (this, "key-released");

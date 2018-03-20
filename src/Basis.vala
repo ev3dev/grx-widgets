@@ -247,7 +247,7 @@ namespace Gw {
             if (top_window == null) {
                 return null;
             }
-            return top_window.get_focused_child ();
+            return top_window.get_focused_descendant ();
         }
 
         /**

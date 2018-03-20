@@ -486,10 +486,11 @@ namespace Gw {
          *
          * @return The focused widget or ``null`` if no widget is focused.
          */
-        public Widget? get_focused_child () {
+        public Widget? get_focused_descendant () {
             return do_recursive_children ((widget) => {
-                if (widget.has_focus)
+                if (widget.has_focus) {
                     return widget;
+                }
                 return null;
             });
         }

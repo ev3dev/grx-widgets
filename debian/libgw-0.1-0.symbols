@@ -273,7 +273,7 @@ libgw-0.1.so.0 libgw-0.1-0 #MINVER#
  gw_widget_get_border_right@Base 0.1.0
  gw_widget_get_border_top@Base 0.1.0
  gw_widget_get_can_focus@Base 0.1.0
- gw_widget_get_focused_child@Base 0.1.0
+ gw_widget_get_focused_descendant@Base 0.1.0
  gw_widget_get_has_focus@Base 0.1.0
  gw_widget_get_h_align@Base 0.1.0
  gw_widget_get_margin_border_padding_height@Base 0.1.0
