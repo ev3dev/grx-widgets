@@ -25,13 +25,15 @@ set (SOURCE_FILES
     # RadioMenuItem.vala
     Rectangle.vala
     Resource.vala
-    # Scroll.vala
     # Stack.vala
     # StatusBar.vala
     # StatusBarItem.vala
     # TextEntry.vala
     TitleBar.vala
     VBox.vala
+    VScroll.vala
+    VScrollBar.vala
+    VTrough.vala
     Widget.vala
     Window.vala
     ${CMAKE_CURRENT_BINARY_DIR}/Version.vala

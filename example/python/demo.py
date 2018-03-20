@@ -20,8 +20,11 @@ class DemoWindow(Gw.Window):
     def __init__(self):
         super(Gw.Window, self).__init__()
 
+        vscroll = Gw.VScroll.new()
+        self.add(vscroll)
+
         vbox = Gw.VBox.new()
-        self.add(vbox)
+        vscroll.get_content_box().add(vbox)
 
         label = Gw.Label.new('hello world!')
         vbox.add(label)
@@ -31,10 +34,14 @@ class DemoWindow(Gw.Window):
         btn1.connect('pressed', self.show_image_window)
         vbox.add(btn1)
 
-        btn2 = Gw.Button.with_label('Click me too!')
+        btn2 = Gw.Button.with_label('Quit')
         btn2.set_margin(3)
-        btn2.connect('pressed', lambda _: print('btn2 pressed'))
+        btn2.connect('pressed', lambda _: self.close())
         vbox.add(btn2)
+
+        for _ in range(10):
+            test = Gw.Label.new('test')
+            vbox.add(test)
 
     def show_image_window(self, btn):
         self.get_basis().show_window(ImageWindow())

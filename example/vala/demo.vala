@@ -18,8 +18,11 @@ using Gw;
 
 class DemoWindow : Window {
     public DemoWindow () {
+        var vscroll = new VScroll ();
+        add (vscroll);
+
         var vbox = new VBox ();
-        add (vbox);
+        vscroll.content_box.add (vbox);
 
         var label = new Label ("hello world!");
         vbox.add (label);
@@ -38,6 +41,12 @@ class DemoWindow : Window {
         };
         button2.pressed.connect (() => close ());
         vbox.add (button2);
+
+        for (var i = 0; i < 10; i++) {
+            var test = new Label ("test");
+            vbox.add (test);
+        }
+
 //          var menu = new Gw.Menu ();
 
 //          var button_item = new Gw.MenuItem ("Buttons");
