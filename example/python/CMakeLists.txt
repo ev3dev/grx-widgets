@@ -11,4 +11,5 @@ add_custom_target(run-python-demo
         ${CMAKE_CURRENT_SOURCE_DIR}/demo.py
 )
 
+install(FILES image.py DESTINATION ${CMAKE_INSTALL_LIBPKGDIR}/example/python)
 install(PROGRAMS demo.py DESTINATION ${CMAKE_INSTALL_LIBPKGDIR}/example/python)
