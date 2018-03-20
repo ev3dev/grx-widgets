@@ -71,13 +71,18 @@ namespace Gw {
         public bool descendant_has_focus {
             get {
                 foreach (var item in children) {
-                    var focused = item.do_recursive_children ((widget) => {
+                    var container = item as Container;
+                    if (container == null) {
+                        return item.has_focus;
+                    }
+                    var focused = container.do_recursive_children ((widget) => {
                         if (widget.has_focus)
                             return widget;
                         return null;
                     });
-                    if (focused != null)
+                    if (focused != null) {
                         return true;
+                    }
                 }
                 return false;
             }
@@ -282,6 +287,50 @@ namespace Gw {
         }
 
         /**
+         * Run a function recursively over widget and all of its children.
+         *
+         * The recursion stops when ``func`` returns a non-null value.
+         *
+         * @param func The function to call for each recursion.
+         * @param reverse If ``true`` containers with more than one child will
+         * be iterated starting with the last child first.
+         * @return The return value of the last call to ``func``.
+         */
+        public Widget? do_recursive_children (WidgetFunc func, bool reverse = false) {
+            return do_recursive_children_internal (this, func, reverse);
+        }
+
+        static Widget? do_recursive_children_internal (
+            Widget widget, WidgetFunc func, bool reverse)
+        {
+            var result = func (widget);
+            if (result != null)
+                return result;
+            var container = widget as Container;
+            if (container != null && container.children.first () != null) {
+                unowned List<Widget> iter;
+                if (reverse) {
+                    iter = container.children.last ();
+                    do {
+                        result = do_recursive_children_internal (iter.data, func, reverse);
+                        if (result != null) {
+                            return result;
+                        }
+                    } while ((iter = iter.prev) != null);
+                } else {
+                    iter = container.children.first ();
+                    do {
+                        result = do_recursive_children_internal (iter.data, func, reverse);
+                        if (result != null) {
+                            return result;
+                        }
+                    } while ((iter = iter.next) != null);
+                }
+            }
+            return null;
+        }
+
+        /**
          * Focuses the first descendant of the container that can focus.
          *
          * @return false if no descendants can focus.
@@ -296,6 +345,20 @@ namespace Gw {
                 return null;
             });
             return focus_widget != null;
+        }
+
+        /**
+         * Searches this Widget and its children for the currently focused widget.
+         *
+         * @return The focused widget or ``null`` if no widget is focused.
+         */
+        public Widget? get_focused_descendant () {
+            return do_recursive_children ((widget) => {
+                if (widget.has_focus) {
+                    return widget;
+                }
+                return null;
+            });
         }
 
         /**
