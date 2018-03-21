@@ -101,9 +101,9 @@ namespace Gw {
         }
 
         /**
-         * Default handler for the key_pressed signal.
+         * {@inheritDoc}
          */
-        internal override bool key_pressed (KeyEvent event) {
+        public override bool key_released (KeyEvent event) {
             switch (event.keysym) {
             case Key.RETURN:
             case Key.SPACE:
@@ -111,10 +111,10 @@ namespace Gw {
                 pressed ();
                 break;
             default:
-                return base.key_pressed (event);
+                return base.key_released (event);
             }
 
-            Signal.stop_emission_by_name (this, "key-pressed");
+            Signal.stop_emission_by_name (this, "key-released");
             return true;
         }
 
