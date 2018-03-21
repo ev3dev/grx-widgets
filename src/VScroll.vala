@@ -171,7 +171,7 @@ namespace Gw {
         /**
          * {@inheritDoc}
          */
-        protected override bool key_released (KeyEvent event) {
+        public override bool key_released (KeyEvent event) {
             switch (event.keysym) {
             case Key.UP:
             case Key.KP_UP:
@@ -182,9 +182,11 @@ namespace Gw {
                 scroll_down ();
                 break;
             case Key.PAGE_UP:
+            case Key.KP_PAGE_UP:
                 scroll_up (scroll_amount * 3);
                 break;
             case Key.PAGE_DOWN:
+            case Key.KP_PAGE_DOWN:
                 scroll_down (scroll_amount * 3);
                 break;
             default:
