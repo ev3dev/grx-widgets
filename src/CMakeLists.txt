@@ -22,7 +22,7 @@ set (SOURCE_FILES
     IconSize.vala
     # InputDialog.vala
     Label.vala
-    # Menu.vala
+    MenuWindow.vala
     # MenuItem.vala
     # MessageDialog.vala
     # OnScreenKeyboard.vala

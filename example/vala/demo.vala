@@ -16,16 +16,10 @@
 
 using Gw;
 
-class DemoWindow : Window {
+class DemoWindow : MenuWindow {
     public DemoWindow () {
-        var vscroll = new VScroll ();
-        add (vscroll);
-
-        var vbox = new VBox ();
-        vscroll.content_box.add (vbox);
-
         var label = new Label ("hello world!");
-        vbox.add (label);
+        content_box.add (label);
 
         var button1 = new Button.with_label ("Images") {
             margin = 3
@@ -34,17 +28,17 @@ class DemoWindow : Window {
             var window = new ImageWindow ();
             basis.show_window (window);
         });
-        vbox.add (button1);
+        content_box.add (button1);
 
         var button2 = new Button.with_label ("Quit") {
             margin = 3
         };
         button2.pressed.connect (() => close ());
-        vbox.add (button2);
+        content_box.add (button2);
 
         for (var i = 0; i < 10; i++) {
             var test = new Label ("test");
-            vbox.add (test);
+            content_box.add (test);
         }
 
 //          var menu = new Gw.Menu ();
