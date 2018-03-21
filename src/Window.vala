@@ -66,9 +66,8 @@ namespace Gw {
         }
 
         construct {
-            if (container_type != ContainerType.SINGLE) {
-                critical ("Requires container_type == ContainerType.SINGLE.");
-            }
+            warn_if_fail (container_type == ContainerType.SINGLE);
+
             notify["on-top"].connect (() => {
                 if (never_shown) {
                     never_shown = false;

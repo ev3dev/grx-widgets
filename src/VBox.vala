@@ -47,9 +47,7 @@ namespace Gw {
         public int spacing { get; set; default = 2; }
 
         construct {
-            if (container_type != ContainerType.MULTIPLE) {
-                critical ("Requires container_type == ContainerType.MULTIPLE.");
-            }
+            warn_if_fail (container_type == ContainerType.MULTIPLE);
             notify["spacing"].connect (redraw);
         }
 

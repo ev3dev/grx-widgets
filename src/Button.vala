@@ -32,9 +32,7 @@ namespace Gw {
         public signal void pressed ();
 
         construct {
-            if (container_type != ContainerType.SINGLE) {
-                critical ("Requires container_type == ContainerType.SINGLE");
-            }
+            warn_if_fail (container_type == ContainerType.SINGLE);
             border = 1;
             border_radius = 3;
             padding = 2;

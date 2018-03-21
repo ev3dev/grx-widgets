@@ -22,9 +22,7 @@ namespace Gw {
      */
     public class VTrough : Gw.Container {
         construct {
-            if (container_type != ContainerType.SINGLE) {
-                critical ("Requires container_type == ContainerType.SINGLE.");
-            }
+            warn_if_fail (container_type == ContainerType.SINGLE);
 
             // TODO: add thumb button
         }
