@@ -1,7 +1,7 @@
 /*
  * GRX Widgets - Widget toolkit for small displays
  *
- * Copyright 2015 David Lechner <david@lechnology.com>
+ * Copyright 2018 David Lechner <david@lechnology.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,10 @@
 /* Version.vala - Version info from CMakeLists.txt (automatically generated) */
 
 namespace Gw {
-    const string VERSION = "@VERSION@";
+    /**
+     * The library version number.
+     */
+    const string VERSION = "@PROJECT_VERSION@";
 
     /**
      * The data directory for this library.
