@@ -35,6 +35,7 @@ namespace Gw {
          * from a signal handler.
          */
         bool never_shown = true;
+        string? title;
 
         /**
          * Gets the {@link Basis} that this Window is attached to.
@@ -50,6 +51,12 @@ namespace Gw {
          * Window and one Dialog can be ``on-top`` at a time.
          */
         public bool on_top { get; set; default = false; }
+
+        /**
+         * Construct-only property to optionally create a title bar during
+         * initialization.
+         */
+        public string create_title_bar { construct { title = value; } }
 
         /**
          * Emitted the first time this window is shown.
@@ -77,6 +84,31 @@ namespace Gw {
                     });
                 }
             });
+
+            if (title != null) {
+                var vbox = new VBox ();
+                add (vbox);
+    
+                var title_bar = new TitleBar (title);
+                vbox.add (title_bar);
+    
+                weak Window weak_this = this;
+                key_pressed.connect (event => {
+                    // this list should match TitleBar.handle_back_button_key_released()
+                    switch (event.keysym) {
+                    case Key.BACK_SPACE:
+                    case Key.ESCAPE:
+                    case Key.LEFT:
+                    case Key.KP_LEFT:
+                        title_bar.focus_first ();
+                        break;
+                    default:
+                        return false;
+                    }
+                    Signal.stop_emission_by_name (weak_this, "key-pressed");
+                    return true;
+                });
+            }
         }
 
         /**
@@ -84,6 +116,22 @@ namespace Gw {
          */
         public Window () {
             Object (container_type: ContainerType.SINGLE);
+        }
+
+        /**
+         * Creates a new Window with a title bar.
+         *
+         * Additional key bindings are added to close the window via the
+         * {@link TitleBar}.
+         *
+         * The {@link child} will be populated a {@link VBox} containing a
+         * {@link TitleBar}. The window content should be added to this
+         * {@link VBox}. Attempting to use the usual {@link add} method
+         * on the {@link Window} directly will remove the {@link VBox} and
+         * the {@link TitleBar}.
+         */
+        public Window.with_title_bar (string title) {
+            Object (container_type: ContainerType.SINGLE, create_title_bar: title);
         }
 
         /**

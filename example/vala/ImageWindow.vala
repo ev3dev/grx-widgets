@@ -19,11 +19,9 @@ using Gw;
 
 class ImageWindow : Window {
     public ImageWindow () {
-        var vbox = new VBox ();
-        add (vbox);
+        Object (create_title_bar: "Image Demo");
 
-        var nav = new TitleBar ("Image Demo");
-        vbox.add (nav);
+        var vbox = (VBox)child;
 
         var hbox = new HBox ();
         vbox.add (hbox);

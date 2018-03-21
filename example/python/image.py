@@ -7,13 +7,9 @@ from gi.repository import Gw
 
 class ImageWindow(Gw.Window):
     def __init__(self):
-        super(Gw.Window, self).__init__()
+        super(Gw.Window, self).__init__(create_title_bar='Image Demo')
 
-        vbox = Gw.VBox.new()
-        self.add(vbox)
-
-        nav = Gw.TitleBar.new('Image Demo')
-        vbox.add(nav)
+        vbox = self.get_child()
 
         hbox = Gw.HBox.new()
         vbox.add(hbox)

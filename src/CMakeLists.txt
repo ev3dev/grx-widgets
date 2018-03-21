@@ -5,6 +5,10 @@
 add_definitions (-w)
 
 set (SOURCE_FILES
+    # Window.vala is not in alphabetical order to avoid compiler bug!
+    # We will get error messages like "error: Gw.VBox.key_released: no suitable
+    # method found to override" if we put it in order.
+    Window.vala
     Application.vala
     Basis.vala
     Button.vala
@@ -35,7 +39,6 @@ set (SOURCE_FILES
     VScrollBar.vala
     VTrough.vala
     Widget.vala
-    Window.vala
     ${CMAKE_CURRENT_BINARY_DIR}/Version.vala
 )
 

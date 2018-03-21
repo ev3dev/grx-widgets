@@ -37,6 +37,7 @@ namespace Gw {
                 border_right = 1,
                 margin = 0
             };
+            back_button.key_released.connect (handle_back_button_key_released);
             back_button.pressed.connect (handle_back_button_pressed);
             add (back_button);
     
@@ -55,6 +56,24 @@ namespace Gw {
          */
         public TitleBar (string title) {
             title_label.text = title;
+        }
+
+        bool handle_back_button_key_released (KeyEvent event)
+        {
+            switch (event.keysym) {
+            // this list should match Window.with_title_bar()
+            case Key.BACK_SPACE:
+            case Key.ESCAPE:
+            case Key.LEFT:
+            case Key.KP_LEFT:
+                back_button.pressed ();
+                break;
+            default:
+                return false;
+            }
+
+            Signal.stop_emission_by_name (back_button, "key-released");
+            return true;
         }
 
         void handle_back_button_pressed () {
