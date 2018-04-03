@@ -148,8 +148,8 @@ namespace Gw {
             var content_width = content_bounds.get_width () - scroll_bar_width;
             var content_height = content_box.get_preferred_height_for_width (content_width);
 
-            scroll_offset = int.max (0, scroll_offset);
             scroll_offset = int.min (scroll_offset, content_height - content_bounds.get_height () + 1);
+            scroll_offset = int.max (0, scroll_offset);
             var y = content_bounds.y1 - scroll_offset;
 
             set_child_bounds (content_box, content_bounds.x1, y,
