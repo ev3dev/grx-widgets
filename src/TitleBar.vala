@@ -26,6 +26,14 @@ namespace Gw {
         Button back_button;
         Label title_label;
 
+        /**
+         * Gets and sets the title bar label.
+         */
+        public string title {
+            get { return title_label.text; }
+            set { title_label.text = value; }
+        }
+
         construct {
             v_align = WidgetAlign.START;
             border_bottom = 1;
