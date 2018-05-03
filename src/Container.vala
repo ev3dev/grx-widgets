@@ -140,9 +140,7 @@ namespace Gw {
         }
 
         void weak_notify (Object obj) {
-            while (child != null) {
-                remove (child);
-            }
+            remove_all ();
         }
 
         /**
@@ -273,6 +271,15 @@ namespace Gw {
                 widget.has_focus = false;
                 invalidate_layout ();
                 child_removed (widget);
+            }
+        }
+
+        /**
+         * Removes all child widgets.
+         */
+        public void remove_all () {
+            while (child != null) {
+                remove (child);
             }
         }
 

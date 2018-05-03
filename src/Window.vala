@@ -36,13 +36,16 @@ namespace Gw {
          */
         bool never_shown = true;
         string? title;
+        ulong notify_on_top_id;
+
+        protected TitleBar? title_bar;
 
         /**
          * Gets the {@link Basis} that this Window is attached to.
          *
          * Returns ``null`` if the Window is not associated with {@link Basis}
          */
-        public weak Basis? basis { get; internal set; }
+        public Basis? basis { get; internal set; }
 
         /**
          * Returns true if the Window is currently displayed.
@@ -74,40 +77,16 @@ namespace Gw {
 
         construct {
             warn_if_fail (container_type == ContainerType.SINGLE);
-
-            notify["on-top"].connect (() => {
-                if (never_shown) {
-                    never_shown = false;
-                    Idle.add (() => {
-                        shown ();
-                        return Source.REMOVE;
-                    });
-                }
-            });
+            notify_on_top_id = notify["on-top"].connect (handle_on_top);
 
             if (title != null) {
                 var vbox = new VBox ();
                 add (vbox);
     
-                var title_bar = new TitleBar (title);
+                title_bar = new TitleBar (title);
                 vbox.add (title_bar);
     
-                weak Window weak_this = this;
-                key_pressed.connect (event => {
-                    // this list should match TitleBar.handle_back_button_key_released()
-                    switch (event.keysym) {
-                    case Key.BACK_SPACE:
-                    case Key.ESCAPE:
-                    case Key.LEFT:
-                    case Key.KP_LEFT:
-                        title_bar.focus_first ();
-                        break;
-                    default:
-                        return false;
-                    }
-                    Signal.stop_emission_by_name (weak_this, "key-pressed");
-                    return true;
-                });
+                key_pressed.connect (handle_key_pressed);
             }
         }
 
@@ -189,6 +168,33 @@ namespace Gw {
 
         internal void do_draw () {
             draw ();
+        }
+
+        void handle_on_top () {
+            if (on_top && never_shown) {
+                never_shown = false;
+                Idle.add (() => {
+                    shown ();
+                    return Source.REMOVE;
+                });
+                disconnect (notify_on_top_id);
+            }
+        }
+
+        bool handle_key_pressed (KeyEvent event) {
+            // this list should match TitleBar.handle_back_button_key_released()
+            switch (event.keysym) {
+            case Key.BACK_SPACE:
+            case Key.ESCAPE:
+            case Key.LEFT:
+            case Key.KP_LEFT:
+                title_bar.focus_first ();
+                break;
+            default:
+                return false;
+            }
+            Signal.stop_emission_by_name (this, "key-pressed");
+            return true;
         }
     }
 }

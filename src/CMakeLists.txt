@@ -16,6 +16,7 @@ set (SOURCE_FILES
     # CheckButton.vala
     Container.vala
     # Dialog.vala
+    FileBrowser.vala
     # Grid.vala
     HBox.vala
     Image.vala

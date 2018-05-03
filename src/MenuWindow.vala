@@ -21,7 +21,7 @@ namespace Gw {
      * {@link Window} with {@link VScroll} for creating menus.
      */
     public class MenuWindow : Window {
-        VScroll vscroll;
+        protected VScroll vscroll;
 
         /**
          * Gets the content box of the {@VScroll} for this window.

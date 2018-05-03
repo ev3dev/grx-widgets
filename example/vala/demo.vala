@@ -27,14 +27,26 @@ class DemoWindow : MenuWindow {
         button1.pressed.connect (() => {
             var window = new ImageWindow ();
             basis.show_window (window);
+            window.weak_ref (() => message ("ImageWindow freed"));
         });
         content_box.add (button1);
 
-        var button2 = new Button.with_label ("Quit") {
+        var file_browser_button = new Button.with_label ("File Browser") {
             margin = 3
         };
-        button2.pressed.connect (() => close ());
-        content_box.add (button2);
+        file_browser_button.pressed.connect (() => {
+            var window = new FileBrowser (Environment.get_home_dir ());
+            basis.show_window (window);
+            window.init_async.begin ();
+            window.weak_ref (() => message ("FileBrowser freed"));
+        });
+        content_box.add (file_browser_button);
+
+        var quit_button = new Button.with_label ("Quit") {
+            margin = 3
+        };
+        quit_button.pressed.connect (() => close ());
+        content_box.add (quit_button);
 
         for (var i = 0; i < 10; i++) {
             var test = new Label ("test");

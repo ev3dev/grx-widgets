@@ -226,7 +226,7 @@ namespace Gw {
                 window.on_top = false;
                 window.closed ();
                 if (was_top_window && !window_stack.is_empty ()) {
-                    window_stack.peek_head ().shown ();
+                    window_stack.peek_head ().on_top = true;
                 }
                 invalidate_layout ();
                 window_removed (window);
